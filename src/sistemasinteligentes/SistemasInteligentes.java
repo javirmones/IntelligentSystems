@@ -10,7 +10,7 @@ package sistemasinteligentes;
  * @author absit
  */
 import java.util.Random;
-import utilidades.leer;
+import utilidades.*;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,17 +22,17 @@ public class SistemasInteligentes {
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-        Terreno t = principal();
+        principal();
         //System.out.println(t.toString());
-        // mostrarTerreno(t);
+        //mostrarTerreno(t);
         //rellenarTerreno(t);
         //mostrarTerreno(t);
     }
 
-    public static Terreno principal() throws Exception {
+    public static void principal() throws Exception {
 
         boolean condicional = false;
-        Terreno t = null;
+
         System.out.println("Practica 1- Sistemas Inteligentes\n");
         System.out.println("1.\t Generacion mediante teclado");
         System.out.println("2.\t Generacion mediante fichero");
@@ -43,7 +43,7 @@ public class SistemasInteligentes {
             int condicion = leer.entero("Seleccione de que modo quiere generar el terreno\n");
             switch (condicion) {
                 case 1:
-                    return t = cargarDatosTeclado();
+                    cargarDatosTeclado();
 
                 case 2:
                     cargarDatosFichero();
@@ -56,45 +56,40 @@ public class SistemasInteligentes {
                     break;
             }
         } while (condicional == false);
-        return t;
 
     }
 
     public static void cargarDatosFichero() throws Exception {
-        //TO DO   
+
         try {
 
+            int j = 0;
             Scanner lectura = new Scanner(new File("FicheroPrueba.txt"));
             lectura.useDelimiter(" ");
-            String linea;
-            String[]aux;
-            String[]auxf;
-            int i=0;
-            
-            while(lectura.hasNext()){
-                
-                int prueba=lectura.nextInt();
-                System.out.println(prueba);
+            String[] aux = lectura.nextLine().split(" ");
+            String[] auxM;
+            int[][] matrizTerreno = new int[Integer.parseInt(aux[4])][Integer.parseInt(aux[5])];
 
-                //linea=lectura.nextLine();
-               
-                //System.out.println(linea);
-                //System.out.println(aux.toString());
-                
-               // int prueba=Integer.parseInt(aux[4]);
-                //System.out.println(prueba);
-                //int Yt=Integer.pareInt(aux[2]);
-                //int K=Integer.parseInt(aux[4]);
-                //int max=Integer.parseInt(aux[5]);
-                //int C= Integer.parseInt(aux[8]);
-                //int F= Integer.parseInt(aux[10]);
-               // System.out.println(linea);
-                //Terreno t=new Terreno(Xt,Yt,K,max,C,F);
-                //t.toString();
-            
+            Terreno t = new Terreno(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]),
+                    Integer.parseInt(aux[3]), Integer.parseInt(aux[4]), Integer.parseInt(aux[4]));
+
+            //4 filas
+            //5 columnas
+            while (lectura.hasNext()) {
+                lectura.skip(" ");
+                auxM = lectura.nextLine().split(" ");
+                for (int i = 0; i < Integer.parseInt(aux[5]); i++) {
+                    matrizTerreno[j][i] = Integer.parseInt(auxM[i]);
+                }
+                j++;
+
             }
+
+            t.terreno = matrizTerreno;
+            mostrarTerreno(t);
+
         } catch (FileNotFoundException e) {
-            System.out.println("A");
+            System.out.println("Archivo no encontrado");
         }
 
     }
@@ -143,4 +138,11 @@ public class SistemasInteligentes {
         } while (t.getRestante() != 0);
     }
 
+    public static void inicioDistribucion() {
+        //TO DO
+    }
+
+    public static void escrituraFichero() {
+        //TO DO
+    }
 }
