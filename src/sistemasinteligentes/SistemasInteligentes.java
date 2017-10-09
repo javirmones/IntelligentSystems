@@ -30,21 +30,21 @@ public class SistemasInteligentes {
     }
 
     public static void principal() throws Exception {
-
+        
         boolean condicional = false;
-
-        System.out.println("Practica 1- Sistemas Inteligentes\n");
-        System.out.println("1.\t Generacion mediante teclado");
-        System.out.println("2.\t Generacion mediante fichero");
-        System.out.println("3.\t Salir");
 
         do {
 
-            int condicion = leer.entero("Seleccione de que modo quiere generar el terreno\n");
+            int condicion = leer.entero("Seleccione de que modo quiere generar el terreno\n"
+                    + "1. Generacion mediante teclado\n"
+                    + "2. Generacion mediante fichero\n"
+                    + "3. Salir\n");
             switch (condicion) {
                 case 1:
-                    cargarDatosTeclado();
-
+                    Terreno t = cargarDatosTeclado();
+                    rellenarTerreno(t);
+                    mostrarTerreno(t);
+                    break;
                 case 2:
                     cargarDatosFichero();
                     break;
