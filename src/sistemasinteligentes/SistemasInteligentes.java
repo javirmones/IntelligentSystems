@@ -6,56 +6,55 @@
 package sistemasinteligentes;
 
 /**
- *
- * @author absit
- */
+ * @author Adrian Muñoz, Javier Monescillo, Angel Sanchez
+ **/
 import java.util.Random;
 import utilidades.*;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class SistemasInteligentes {
 
     /**
      * @param args the command line arguments
      * @throws java.lang.Exception
-     */
+     **/
+    
     public static void main(String[] args) throws Exception {
         principal();
-        //System.out.println(t.toString());
-        //mostrarTerreno(t);
-        //rellenarTerreno(t);
-        //mostrarTerreno(t);
     }
 
     public static void principal() throws Exception {
         
-        boolean condicional = false;
+        boolean salir = false; //Condicional para comprobar la finalizacion del programa
 
         do {
-
             int condicion = leer.entero("Seleccione de que modo quiere generar el terreno\n"
                     + "1. Generacion mediante teclado\n"
                     + "2. Generacion mediante fichero\n"
                     + "3. Salir\n");
-            switch (condicion) {
+            switch(condicion){
                 case 1:
                     Terreno t = cargarDatosTeclado();
                     rellenarTerreno(t);
                     mostrarTerreno(t);
+                    escrituraFichero(t);
                     break;
                 case 2:
                     cargarDatosFichero();
                     break;
                 case 3:
-                    condicional = true;
+                    salir = true;
                     break;
                 default:
                     System.out.println("El numero no es correcto");
                     break;
             }
-        } while (condicional == false);
+        } while(salir == false);
 
     }
 
@@ -64,34 +63,29 @@ public class SistemasInteligentes {
         try {
 
             int j = 0;
-            Scanner lectura = new Scanner(new File("FicheroPrueba.txt"));
+            Scanner lectura = new Scanner(new File("DistribucionesTerreno.txt"));
             lectura.useDelimiter(" ");
             String[] aux = lectura.nextLine().split(" ");
             String[] auxM;
             int[][] matrizTerreno = new int[Integer.parseInt(aux[4])][Integer.parseInt(aux[5])];
 
             Terreno t = new Terreno(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]),
-                    Integer.parseInt(aux[3]), Integer.parseInt(aux[5]), Integer.parseInt(aux[4]));
+                    Integer.parseInt(aux[3]), Integer.parseInt(aux[4]), Integer.parseInt(aux[5]));
 
-            //4 filas
-            //5 columnas
-            while (lectura.hasNext()) {
+            while (lectura.hasNext()){
                 lectura.skip(" ");
                 auxM = lectura.nextLine().split(" ");
-                for (int i = 0; i < Integer.parseInt(aux[5]); i++) {
+                for (int i = 0; i < Integer.parseInt(aux[4]); i++) {
                     matrizTerreno[j][i] = Integer.parseInt(auxM[i]);
                 }
                 j++;
-
             }
-
+                     
             t.terreno = matrizTerreno;
             mostrarTerreno(t);
-
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado");
         }
-
     }
 
     public static Terreno cargarDatosTeclado() throws Exception {
@@ -102,14 +96,14 @@ public class SistemasInteligentes {
         int max = leer.entero("Introduzca el peso máximo para una casilla");
         int K = leer.entero("Introduzca el peso recomendado para una casilla", 0, max);
 
-        Terreno t = new Terreno(Xt, Yt, K, max, Columnas, Filas);
-
-        return t;
+        Terreno t = new Terreno(Xt, Yt, K, max, Columnas, Filas); //Se genera un pbjeto terreno con los datos introducidos
+        
+        return t; //Retornamos el terreno
     }
 
-    public static void mostrarTerreno(Terreno t) {
-        for (int i = 0; i < t.getFilas(); i++) {
-            for (int j = 0; j < t.getColumnas(); j++) {
+    public static void mostrarTerreno(Terreno t){
+        for(int i = 0; i < t.getFilas(); i++){
+            for(int j = 0; j < t.getColumnas(); j++){
                 System.out.print(" " + t.terreno[i][j] + " ");
             }
             System.out.println();
@@ -117,34 +111,50 @@ public class SistemasInteligentes {
         System.out.println();
     }
 
-    public static void rellenarTerreno(Terreno t) {
+    public static void rellenarTerreno(Terreno t){
         Random rnd = new Random();
         int restante = t.getV();
-        do {
-            for (int i = 0; i < t.getFilas(); i++) {
-                for (int j = 0; j < t.getColumnas(); j++) {
-                    if (restante > t.getMax()) {
+        do{
+            for(int i = 0; i < t.getFilas(); i++){
+                for(int j = 0; j < t.getColumnas(); j++){
+                    if(restante > t.getMax()){
                         int peso = rnd.nextInt(t.getMax());
-                        if (t.terreno[i][j] + peso <= t.getMax()) {
+                        if(t.terreno[i][j] + peso <= t.getMax()){
                             t.terreno[i][j] += peso;
                             restante -= peso;
                         }
-                    } else {
-                         if (t.terreno[i][j] + restante <= t.getMax()) {
+                    }else {
+                        if(t.terreno[i][j] + restante <= t.getMax()){
                             t.terreno[i][j] += restante;
                             restante = 0;
                         }                       
                     }
                 }
             }
-        } while (restante != 0);
+        }while(restante != 0);
     }
 
     public static void inicioDistribucion() {
         //TO DO
     }
 
-    public static void escrituraFichero() {
-        //TO DO
+    public static void escrituraFichero(Terreno t) {
+        File archivo = new File("DistribucionesTerreno.txt");
+	try{                    
+            FileWriter fl = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fl);
+            pw.print(t.getXt()+" "+t.getYt()+" "+t.getK()+" "+t.getMax()+" "+t.getColumnas()+" "+t.getFilas());
+            pw.println("");
+            for(int i = 0; i < t.getFilas(); i++){
+                for(int j = 0; j < t.getColumnas(); j++){
+                    pw.print(" " + t.terreno[i][j]);
+                }
+                pw.println();
+            } 
+        pw.close();
+        }catch(IOException ex){
+            System.out.println("ERROR");
+        }
     }
+    
 }

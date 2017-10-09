@@ -10,14 +10,14 @@ package sistemasinteligentes;
  * @author 05937379
  */
 public class Terreno {
-    private int Xt;
-    private int Yt;
-    private int K;
-    private int max;
-    private int Columnas;
-    private int Filas;
-    private int V;
-    int[][] terreno;
+    private int Xt; //Poscion del tractor en X
+    private int Yt; //Posicion del tractor en Y
+    private int K; //Peso recomendado de cada casilla
+    private int max; //Peso maximo de cada casilla
+    private int Columnas; //Columnas que tendra el terreno
+    private int Filas; //Columnas que tendra el terreno
+    private int V; //Peso total a repartir en todas las columnas
+    int[][] terreno; 
 
     public Terreno (int Xt, int Yt, int K, int max, int Columnas, int Filas){
         this.Xt = Xt;
