@@ -71,7 +71,7 @@ public class SistemasInteligentes {
             int[][] matrizTerreno = new int[Integer.parseInt(aux[4])][Integer.parseInt(aux[5])];
 
             Terreno t = new Terreno(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]),
-                    Integer.parseInt(aux[3]), Integer.parseInt(aux[4]), Integer.parseInt(aux[4]));
+                    Integer.parseInt(aux[3]), Integer.parseInt(aux[5]), Integer.parseInt(aux[4]));
 
             //4 filas
             //5 columnas
