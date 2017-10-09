@@ -17,7 +17,6 @@ public class Terreno {
     private int Columnas;
     private int Filas;
     private int V;
-    private int restante;
     int[][] terreno;
 
     public Terreno (int Xt, int Yt, int K, int max, int Columnas, int Filas){
@@ -28,8 +27,7 @@ public class Terreno {
         this.Columnas = Columnas;
         this.Filas = Filas;
         V = Columnas * Filas * K;
-        restante = V;
-        terreno = new int [Columnas][Filas];
+        terreno = new int [Filas][Columnas];
     }
 
     public void setXt(int Xt) {
@@ -60,10 +58,6 @@ public class Terreno {
         this.V = V;
     }
 
-    public void setRestante(int restante) {
-        this.restante = restante;
-    }
-
     public int getXt() {
         return Xt;
     }
@@ -90,10 +84,6 @@ public class Terreno {
 
     public int getV() {
         return V;
-    }
-
-    public int getRestante() {
-        return restante;
     }
 
     @Override

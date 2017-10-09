@@ -108,8 +108,8 @@ public class SistemasInteligentes {
     }
 
     public static void mostrarTerreno(Terreno t) {
-        for (int i = 0; i < t.getColumnas(); i++) {
-            for (int j = 0; j < t.getFilas(); j++) {
+        for (int i = 0; i < t.getFilas(); i++) {
+            for (int j = 0; j < t.getColumnas(); j++) {
                 System.out.print(" " + t.terreno[i][j] + " ");
             }
             System.out.println();
@@ -119,23 +119,25 @@ public class SistemasInteligentes {
 
     public static void rellenarTerreno(Terreno t) {
         Random rnd = new Random();
+        int restante = t.getV();
         do {
-            for (int i = 0; i < t.getColumnas(); i++) {
-                for (int j = 0; j < t.getFilas(); j++) {
-                    if (t.getRestante() > t.getMax()) {
+            for (int i = 0; i < t.getFilas(); i++) {
+                for (int j = 0; j < t.getColumnas(); j++) {
+                    if (restante > t.getMax()) {
                         int peso = rnd.nextInt(t.getMax());
                         if (t.terreno[i][j] + peso <= t.getMax()) {
                             t.terreno[i][j] += peso;
-                            int nuevoRestante = t.getRestante() - peso;
-                            t.setRestante(nuevoRestante);
+                            restante -= peso;
                         }
                     } else {
-                        t.terreno[i][j] = t.getRestante();
-                        t.setRestante(0);
+                         if (t.terreno[i][j] + restante <= t.getMax()) {
+                            t.terreno[i][j] += restante;
+                            restante = 0;
+                        }                       
                     }
                 }
             }
-        } while (t.getRestante() != 0);
+        } while (restante != 0);
     }
 
     public static void inicioDistribucion() {
