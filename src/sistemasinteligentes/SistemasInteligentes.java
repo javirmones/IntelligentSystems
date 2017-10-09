@@ -10,12 +10,8 @@ package sistemasinteligentes;
  **/
 import java.util.Random;
 import utilidades.*;
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.IOException;
+import java.util.*;
+import java.io.*;
 
 public class SistemasInteligentes {
 
@@ -45,7 +41,9 @@ public class SistemasInteligentes {
                     escrituraFichero(t);
                     break;
                 case 2:
-                    cargarDatosFichero();
+                    Terreno a = cargarDatosFichero();
+                    mostrarTerreno(a);
+                    inicioDistribucion(a);
                     break;
                 case 3:
                     salir = true;
@@ -58,18 +56,18 @@ public class SistemasInteligentes {
 
     }
 
-    public static void cargarDatosFichero() throws Exception {
-
+    public static Terreno cargarDatosFichero() throws Exception {
+        Terreno t = null;
         try {
 
             int j = 0;
-            Scanner lectura = new Scanner(new File("DistribucionesTerreno.txt"));
+            Scanner lectura = new Scanner(new File("FicheroPrueba.txt"));
             lectura.useDelimiter(" ");
             String[] aux = lectura.nextLine().split(" ");
             String[] auxM;
             int[][] matrizTerreno = new int[Integer.parseInt(aux[4])][Integer.parseInt(aux[5])];
 
-            Terreno t = new Terreno(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]),
+            t = new Terreno(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]),
                     Integer.parseInt(aux[3]), Integer.parseInt(aux[4]), Integer.parseInt(aux[5]));
 
             while (lectura.hasNext()){
@@ -81,18 +79,18 @@ public class SistemasInteligentes {
                 j++;
             }
                      
-            t.terreno = matrizTerreno;
-            mostrarTerreno(t);
+            t.terreno = matrizTerreno;            
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado");
         }
+        return t;
     }
 
     public static Terreno cargarDatosTeclado() throws Exception {
         int Columnas = leer.entero("Introduzca las columnas del terreno");
         int Filas = leer.entero("Introduzca el número de filas del terreno");
-        int Yt = leer.entero("Introduzca la posición del tractor en las columnas", 0, Columnas);
-        int Xt = leer.entero("Introduzca la posición del tractor en las filas", 0, Filas);
+        int Yt = leer.entero("Introduzca la posición del tractor en las columnas", 0, Columnas - 1);
+        int Xt = leer.entero("Introduzca la posición del tractor en las filas", 0, Filas - 1);
         int max = leer.entero("Introduzca el peso máximo para una casilla");
         int K = leer.entero("Introduzca el peso recomendado para una casilla", 0, max);
 
@@ -134,10 +132,6 @@ public class SistemasInteligentes {
         }while(restante != 0);
     }
 
-    public static void inicioDistribucion() {
-        //TO DO
-    }
-
     public static void escrituraFichero(Terreno t) {
         File archivo = new File("DistribucionesTerreno.txt");
 	try{                    
@@ -157,4 +151,42 @@ public class SistemasInteligentes {
         }
     }
     
+    public static void inicioDistribucion(Terreno t) {
+        int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
+        ArrayList vecinos = generarVecinos(t);
+        System.out.println(vecinos);
+    }
+    
+    public static ArrayList generarVecinos(Terreno t){
+        /*for(int i = 0; i < vecinos.length; i++){
+            if (t.getXt() - 1 < 0 || t.getYt() - 1  < 0 || t.getXt() + 1 >= t.getFilas() || t.getYt() + 1 >= t.getColumnas());
+        }*/
+        ArrayList vecinos = new ArrayList();
+        if(t.getXt() - 1 >= 0){
+            ArrayList vec1 = new ArrayList();
+            vec1.add(t.getXt()-1);
+            vec1.add(t.getYt());
+            vecinos.add(vec1);
+        }
+        if(t.getXt() + 1 < t.getFilas()){
+            ArrayList vec2 = new ArrayList();
+            vec2.add(t.getXt()+1);
+            vec2.add(t.getYt());
+            vecinos.add(vec2);
+        }
+        if(t.getYt() - 1 >= 0){
+            ArrayList vec3 = new ArrayList();
+            vec3.add(t.getXt());
+            vec3.add(t.getYt()-1);
+            vecinos.add(vec3);
+        }
+        if(t.getYt() + 1 < t.getColumnas()){
+            ArrayList vec4 = new ArrayList();
+            vec4.add(t.getXt());
+            vec4.add(t.getYt()+1);
+            vecinos.add(vec4);
+        }
+        
+        return vecinos;
+    }
 }
