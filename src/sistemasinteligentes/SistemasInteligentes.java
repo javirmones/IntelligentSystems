@@ -156,8 +156,8 @@ public class SistemasInteligentes {
     public static void inicioDistribucion(Terreno t) {
         int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
         ArrayList<ArrayList> vecinos = generarVecinos(t);
+        int [] valorVec = valorVecinos(t,vecinos);
         System.out.println(vecinos);
-        
     }
     
     public static ArrayList generarVecinos(Terreno t){
@@ -190,4 +190,15 @@ public class SistemasInteligentes {
         
         return vecinos;
     }
+
+    public static int [] valorVecinos(Terreno t, ArrayList<ArrayList> vecinos){
+        int [] valorVec = new int [vecinos.size()];
+        for(int i = 0 ; i < vecinos.size() ; i++){
+            int valor1 = (int) vecinos.get(i).get(0);
+            int valor2 = (int) vecinos.get(i).get(1);
+            valorVec[i] = t.terreno[valor1][valor2];
+        }
+        return valorVec;
+    }
+    
 }
