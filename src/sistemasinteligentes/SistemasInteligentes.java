@@ -187,11 +187,14 @@ public class SistemasInteligentes {
     public static void distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones){
         if(etapa == vecinos.size()){
             if(esSolucion(k,vecinos)){
-               todasDistribuciones.add(vecinos);                
+                for(int v = 0; v < vecinos.size(); v++)
+                    System.out.print("(" + vecinos.get(v).getValorDistribuir() + ",(" + vecinos.get(v).getPosX() + ", " + vecinos.get(v).getPosY() +"))");
+                System.out.println();
+               //todasDistribuciones.add(vecinos);                
             }
         }else{                            
             for (int i = 0; i < vecinos.size(); i++) {
-                for (int j = 0; j <= actual; j++) {  
+                for (int j = 0; j <= k; j++) {  
                     if(esPosible(j,vecinos.get(i))){                  
                         vecinos.get(i).setValorDistribuir(j);
                         distribucion(etapa+1,k,actual-j,vecinos,todasDistribuciones);
