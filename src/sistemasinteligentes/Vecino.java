@@ -70,7 +70,7 @@ public class Vecino {
 
     @Override
     public String toString() {
-        return "Vecino{" + "posX=" + posX + ", posY=" + posY + ", max=" + max + ", valor=" + valor + ", valorDistribuir=" + valorDistribuir + '}';
+        return  "(" + valorDistribuir + ",(" + posX + ", " + posY +"))";
     }
     
     
