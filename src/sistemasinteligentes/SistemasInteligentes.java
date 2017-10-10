@@ -36,9 +36,9 @@ public class SistemasInteligentes {
             switch(condicion){
                 case 1:
                     Terreno t = cargarDatosTeclado();
-                    rellenarTerreno(t);
                     mostrarTerreno(t);
                     escrituraFichero(t);
+                    inicioDistribucion(t);
                     break;
                 case 2:
                     Terreno a = cargarDatosFichero();
@@ -87,6 +87,7 @@ public class SistemasInteligentes {
     }
 
     public static Terreno cargarDatosTeclado() throws Exception {
+        
         int Columnas = leer.entero("Introduzca las columnas del terreno");
         int Filas = leer.entero("Introduzca el número de filas del terreno");
         int Yt = leer.entero("Introduzca la posición del tractor en las columnas", 0, Columnas - 1);
@@ -95,6 +96,7 @@ public class SistemasInteligentes {
         int K = leer.entero("Introduzca el peso recomendado para una casilla", 0, max);
 
         Terreno t = new Terreno(Xt, Yt, K, max, Columnas, Filas); //Se genera un pbjeto terreno con los datos introducidos
+        rellenarTerreno(t);
         
         return t; //Retornamos el terreno
     }
@@ -153,35 +155,34 @@ public class SistemasInteligentes {
     
     public static void inicioDistribucion(Terreno t) {
         int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
-        ArrayList vecinos = generarVecinos(t);
+        ArrayList<ArrayList> vecinos = generarVecinos(t);
         System.out.println(vecinos);
+        
     }
     
     public static ArrayList generarVecinos(Terreno t){
-        /*for(int i = 0; i < vecinos.length; i++){
-            if (t.getXt() - 1 < 0 || t.getYt() - 1  < 0 || t.getXt() + 1 >= t.getFilas() || t.getYt() + 1 >= t.getColumnas());
-        }*/
-        ArrayList vecinos = new ArrayList();
+        ArrayList<ArrayList> vecinos = new ArrayList();
+        
         if(t.getXt() - 1 >= 0){
-            ArrayList vec1 = new ArrayList();
+            ArrayList<Integer> vec1 = new ArrayList();
             vec1.add(t.getXt()-1);
             vec1.add(t.getYt());
             vecinos.add(vec1);
         }
         if(t.getXt() + 1 < t.getFilas()){
-            ArrayList vec2 = new ArrayList();
+            ArrayList<Integer> vec2 = new ArrayList();
             vec2.add(t.getXt()+1);
             vec2.add(t.getYt());
             vecinos.add(vec2);
         }
         if(t.getYt() - 1 >= 0){
-            ArrayList vec3 = new ArrayList();
+            ArrayList<Integer> vec3 = new ArrayList();
             vec3.add(t.getXt());
             vec3.add(t.getYt()-1);
             vecinos.add(vec3);
         }
         if(t.getYt() + 1 < t.getColumnas()){
-            ArrayList vec4 = new ArrayList();
+            ArrayList<Integer> vec4 = new ArrayList();
             vec4.add(t.getXt());
             vec4.add(t.getYt()+1);
             vecinos.add(vec4);

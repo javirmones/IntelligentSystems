@@ -19,6 +19,11 @@ public class Terreno {
     private int V; //Peso total a repartir en todas las columnas
     int[][] terreno; 
 
+    
+    public Terreno (){
+        
+    }
+    
     public Terreno (int Xt, int Yt, int K, int max, int Columnas, int Filas){
         this.Xt = Xt;
         this.Yt = Yt;
