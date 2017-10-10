@@ -153,16 +153,6 @@ public class SistemasInteligentes {
         }
     }
     
-    public static void inicioDistribucion(Terreno t) {
-        int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
-        ArrayList<ArrayList> vecinos = generarVecinos(t);
-        int [] valorVec = valorVecinos(t,vecinos);
-        ArrayList<ArrayList> dist = new ArrayList<ArrayList>(); //Array que guarda valor y vecino como una lista
-        ArrayList<ArrayList> todasDistribuciones = new ArrayList<ArrayList>(); //Array que guardo los valores que le hemos dado a cada vecino
-        todasDistribuciones = distribucion(s,t.getMax(),vecinos,dist,todasDistribuciones);
-        System.out.println(vecinos);              
-    }
-    
     public static ArrayList generarVecinos(Terreno t){
         ArrayList<ArrayList> vecinos = new ArrayList();
         
@@ -204,22 +194,52 @@ public class SistemasInteligentes {
         return valorVec;
     }
     
+    public static void inicioDistribucion(Terreno t) {
+        int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
+        ArrayList<ArrayList> vecinos = generarVecinos(t);
+        int [] valorVec = valorVecinos(t,vecinos);
+        ArrayList dist = new ArrayList(); //Array que guarda valor y vecino como una lista
+        ArrayList<ArrayList> todasDistribuciones = new ArrayList<ArrayList>(); //Array que guardo los valores que le hemos dado a cada vecino
+        todasDistribuciones = distribucion(s,t.getMax(),vecinos,dist);
+        //todasDistribuciones = distribucion(s, t.getMax(), vecinos, dist, todasDistribuciones);
+        //todasDistribuciones = distribucion(s, t.getMax(), vecinos, dist);
+        System.out.println(vecinos);
+        System.out.println(todasDistribuciones);
+    }
     
-    public static ArrayList<ArrayList> distribucion(int k, int max, ArrayList<ArrayList> vecinos, ArrayList<ArrayList> dist,
-            ArrayList<ArrayList> todasDistribuciones){
-        ArrayList auxVecValor = new ArrayList(); //ArrayList para almacenar cada vecino con el valor que le hemos dado
-        
-        if (vecinos.size() == 1) {            
-            auxVecValor.add(k);
-            auxVecValor.add(vecinos.get(0)); 
-            dist.add(auxVecValor);
-            todasDistribuciones.add(dist);
-        } else if (vecinos.size() > 1) {
-            for (int i = 0; i <= k; i++) {
-                //distribucion(k - i, vecinos.get(i), dist);
+    /*public static ArrayList<ArrayList> distribucion(int k, int max, ArrayList<ArrayList> vecinos, ArrayList<ArrayList> dist, ArrayList<ArrayList> todasDistribuciones){
 
+        ArrayList auxVecValor = new ArrayList(); //ArrayList para almacenar cada vecino con el valor que le hemos dado
+        //ArrayList<ArrayList> todasDistribuciones = new ArrayList<ArrayList>();
+        if(k == 0) {            
+            todasDistribuciones.add(dist);
+        } else {
+            //for(int j = 0; j < vecinos.size(); j++)
+                for(int i = 0; i <= k; i++){                  
+                    auxVecValor.add(i);
+                    auxVecValor.add(vecinos.get(i));
+                    dist.add(auxVecValor);
+                    dist.add(distribucion(k-i, max, vecinos, dist, todasDistribuciones));
             }
         }
         return todasDistribuciones;
+    }*/
+    
+        public static ArrayList<ArrayList> distribucion(int k, int max, ArrayList<ArrayList> vecinos, ArrayList dist){
+
+            //ArrayList auxVecValor = new ArrayList(); //ArrayList para almacenar cada vecino con el valor que le hemos dadoç
+            int[] aux = new int[2];
+            for (int j = 0; j < vecinos.size(); j++) {
+                for (int i = 0; i <= k; i++) {
+                    /*auxVecValor.add(0, i);
+                    auxVecValor.*/
+                    aux[0] = i;
+                    //aux[1] = vecinos.get(j);
+                    dist.add(aux);
+                    //System.out.println(dist);
+                }                     
+            }
+           // dist.add(auxVecValor);
+            return dist;
     }
 }

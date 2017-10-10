@@ -15,7 +15,7 @@ public class Terreno {
     private int K; //Peso recomendado de cada casilla
     private int max; //Peso maximo de cada casilla
     private int Columnas; //Columnas que tendra el terreno
-    private int Filas; //Columnas que tendra el terreno
+    private int Filas; //Filas que tendra el terreno
     private int V; //Peso total a repartir en todas las columnas
     int[][] terreno; 
 
