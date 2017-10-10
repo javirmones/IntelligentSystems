@@ -201,4 +201,19 @@ public class SistemasInteligentes {
         return valorVec;
     }
     
+    
+    public static ArrayList<ArrayList> distribucion(int k, ArrayList<ArrayList> vecinos, ArrayList<ArrayList> dist, int MAX){
+
+        if (vecinos.size() == 1) {
+            dist.add(k, vecinos.get(0));
+
+        } else if (vecinos.size() > 1) {
+
+            for (int i = 0; i <= k; i++) {
+                //distribucion(k - i, vecinos.get(i), dist);
+
+            }
+        }
+        return dist;
+    }
 }
