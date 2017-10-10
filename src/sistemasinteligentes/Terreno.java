@@ -21,9 +21,9 @@ public class Terreno {
 
     
     public Terreno (){
-        
+
     }
-    
+
     public Terreno (int Xt, int Yt, int K, int max, int Columnas, int Filas){
         this.Xt = Xt;
         this.Yt = Yt;

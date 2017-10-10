@@ -154,92 +154,60 @@ public class SistemasInteligentes {
     }
     
     public static ArrayList generarVecinos(Terreno t){
-        ArrayList<ArrayList> vecinos = new ArrayList();
-        
-        if(t.getXt() - 1 >= 0){
-            ArrayList<Integer> vec1 = new ArrayList();
-            vec1.add(t.getXt()-1);
-            vec1.add(t.getYt());
-            vecinos.add(vec1);
+        ArrayList<Vecino> vecino = new ArrayList();
+        if(t.getXt() - 1 >= 0){           
+            Vecino vec1 = new Vecino(t.getXt()-1,t.getYt(),t.getMax(),t.terreno[t.getXt()-1][t.getYt()],0);           
+            vecino.add(vec1);
         }
-        if(t.getXt() + 1 < t.getFilas()){
-            ArrayList<Integer> vec2 = new ArrayList();
-            vec2.add(t.getXt()+1);
-            vec2.add(t.getYt());
-            vecinos.add(vec2);
+        if(t.getXt() + 1 < t.getFilas()){ 
+            Vecino vec2 = new Vecino(t.getXt()+1,t.getYt(),t.getMax(),t.terreno[t.getXt()+1][t.getYt()],0);            
+            vecino.add(vec2);
         }
-        if(t.getYt() - 1 >= 0){
-            ArrayList<Integer> vec3 = new ArrayList();
-            vec3.add(t.getXt());
-            vec3.add(t.getYt()-1);
-            vecinos.add(vec3);
+        if(t.getYt() - 1 >= 0){ 
+            Vecino vec3 = new Vecino(t.getXt(),t.getYt()-1,t.getMax(),t.terreno[t.getXt()][t.getYt()-1],0);            
+            vecino.add(vec3);
         }
-        if(t.getYt() + 1 < t.getColumnas()){
-            ArrayList<Integer> vec4 = new ArrayList();
-            vec4.add(t.getXt());
-            vec4.add(t.getYt()+1);
-            vecinos.add(vec4);
-        }
-        
-        return vecinos;
-    }
-
-    public static int [] valorVecinos(Terreno t, ArrayList<ArrayList> vecinos){
-        int [] valorVec = new int [vecinos.size()];
-        for(int i = 0 ; i < vecinos.size() ; i++){
-            int valor1 = (int) vecinos.get(i).get(0);
-            int valor2 = (int) vecinos.get(i).get(1);
-            valorVec[i] = t.terreno[valor1][valor2];
-        }
-        return valorVec;
+        if(t.getYt() + 1 < t.getColumnas()){  
+            Vecino vec4 = new Vecino(t.getXt(),t.getYt()+1,t.getMax(),t.terreno[t.getXt()][t.getYt()+1],0);            
+            vecino.add(vec4);
+        }        
+        return vecino;
     }
     
     public static void inicioDistribucion(Terreno t) {
         int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
-        ArrayList<ArrayList> vecinos = generarVecinos(t);
-        int [] valorVec = valorVecinos(t,vecinos);
-        ArrayList dist = new ArrayList(); //Array que guarda valor y vecino como una lista
-        ArrayList<ArrayList> todasDistribuciones = new ArrayList<ArrayList>(); //Array que guardo los valores que le hemos dado a cada vecino
-        todasDistribuciones = distribucion(s,t.getMax(),vecinos,dist);
-        //todasDistribuciones = distribucion(s, t.getMax(), vecinos, dist, todasDistribuciones);
-        //todasDistribuciones = distribucion(s, t.getMax(), vecinos, dist);
-        System.out.println(vecinos);
+        ArrayList<Vecino> vecinos = generarVecinos(t);              
+        ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guardo los valores que le hemos dado a cada vecino
+        distribucion(0,s,s,vecinos,todasDistribuciones);
         System.out.println(todasDistribuciones);
     }
     
-    /*public static ArrayList<ArrayList> distribucion(int k, int max, ArrayList<ArrayList> vecinos, ArrayList<ArrayList> dist, ArrayList<ArrayList> todasDistribuciones){
-
-        ArrayList auxVecValor = new ArrayList(); //ArrayList para almacenar cada vecino con el valor que le hemos dado
-        //ArrayList<ArrayList> todasDistribuciones = new ArrayList<ArrayList>();
-        if(k == 0) {            
-            todasDistribuciones.add(dist);
-        } else {
-            //for(int j = 0; j < vecinos.size(); j++)
-                for(int i = 0; i <= k; i++){                  
-                    auxVecValor.add(i);
-                    auxVecValor.add(vecinos.get(i));
-                    dist.add(auxVecValor);
-                    dist.add(distribucion(k-i, max, vecinos, dist, todasDistribuciones));
+    public static void distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones){
+        if(etapa == vecinos.size()-1){
+            if(esSolucion(k,vecinos)){
+                todasDistribuciones.add(vecinos);                
+            }
+        }else{                            
+            for (int i = 0; i < vecinos.size(); i++) {
+                for (int j = 0; j <= k; j++) {  
+                    if(esPosible(j,vecinos.get(i))){                  
+                        vecinos.get(i).setValorDistribuir(j);
+                        distribucion(etapa++,k,k-i,vecinos,todasDistribuciones);
+                    }                   
+                }    
             }
         }
-        return todasDistribuciones;
-    }*/
+    }
     
-        public static ArrayList<ArrayList> distribucion(int k, int max, ArrayList<ArrayList> vecinos, ArrayList dist){
-
-            //ArrayList auxVecValor = new ArrayList(); //ArrayList para almacenar cada vecino con el valor que le hemos dadoç
-            int[] aux = new int[2];
-            for (int j = 0; j < vecinos.size(); j++) {
-                for (int i = 0; i <= k; i++) {
-                    /*auxVecValor.add(0, i);
-                    auxVecValor.*/
-                    aux[0] = i;
-                    //aux[1] = vecinos.get(j);
-                    dist.add(aux);
-                    //System.out.println(dist);
-                }                     
+    public static boolean esSolucion(int k, ArrayList<Vecino> vecinos){
+        int suma = 0;
+            for(int i = 0; i < vecinos.size() ; i++){
+                suma += vecinos.get(i).getValorDistribuir();
             }
-           // dist.add(auxVecValor);
-            return dist;
+        return (suma == k);
+    }
+    
+    public static boolean esPosible(int pesoAñadir, Vecino veci){ 
+        return (pesoAñadir+veci.getValor() <= veci.getMax());
     }
 }
