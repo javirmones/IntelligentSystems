@@ -179,20 +179,26 @@ public class SistemasInteligentes {
         ArrayList<Vecino> vecinos = generarVecinos(t);              
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
         distribucion(0,s,s,vecinos,todasDistribuciones);
-        //for(int i = 0 ; i < todasDistribuciones.size() ; i++){
-            //System.out.println(todasDistribuciones.get(i));
-        //}        
+        for(int i = 0 ; i < todasDistribuciones.size() ; i++){
+            System.out.println(todasDistribuciones.get(i));
+        }        
     }
 
     public static ArrayList<ArrayList> distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones) {
         if (etapa == vecinos.size()) {
             if (esSolucion(k, vecinos)) {
-                for (int v = 0; v < vecinos.size(); v++) {
+               /* for (int v = 0; v < vecinos.size(); v++) {
                     System.out.print("(" + vecinos.get(v).getValorDistribuir() + ",(" + vecinos.get(v).getPosX() + ", " + vecinos.get(v).getPosY() + "))");
                     System.out.println();
                     //todasDistribuciones.add(vecinos);                
+                }*/
+                ArrayList<Vecino> list = new ArrayList();
+                //list = vecinos.clone();
+                for(int i = 0; i<vecinos.size();i++){
+                    Vecino vec = (Vecino) vecinos.get(i).clone();
+                    list.add(vec);
                 }
-                ArrayList<Vecino> list = new ArrayList<Vecino>(vecinos);
+                //list = (ArrayList)vecinos.clone();
                 todasDistribuciones.add(list);
             }
         } else {
@@ -200,7 +206,7 @@ public class SistemasInteligentes {
                 for (int j = 0; j <= k; j++) {
                     if (esPosible(j, vecinos.get(i))) {
                         vecinos.get(i).setValorDistribuir(j);
-                        distribucion(etapa + 1, k, actual - j, vecinos, todasDistribuciones);
+                        distribucion(etapa + 1, k, actual - j, vecinos, todasDistribuciones);                        
                     }
                 }
             }

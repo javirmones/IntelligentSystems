@@ -9,7 +9,7 @@ package sistemasinteligentes;
  *
  * @author Angel
  */
-public class Vecino {
+public class Vecino implements Cloneable{
     private int posX;
     private int posY;
     private int max;
@@ -18,6 +18,16 @@ public class Vecino {
     
     public Vecino (){
         
+    }
+    
+     public Object clone(){
+        Object obj=null;
+        try{
+            obj=super.clone();
+        }catch(CloneNotSupportedException ex){
+            System.out.println(" no se puede duplicar");
+        }
+        return obj;
     }
     
     public Vecino (int posX, int posY, int max, int valor, int valorDistribuir){
