@@ -178,40 +178,44 @@ public class SistemasInteligentes {
         int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
         ArrayList<Vecino> vecinos = generarVecinos(t);              
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
+        
         distribucion(0,s,s,vecinos,todasDistribuciones);
-        for(int i = 0 ; i < todasDistribuciones.size() ; i++){
-            System.out.println(todasDistribuciones.get(i));
-        }        
+        for(int i = 0 ; i<todasDistribuciones.size() ; i++){
+            System.out.println(todasDistribuciones.get(i));           
+        }
+        
     }
 
-    public static ArrayList<ArrayList> distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones) {
+    public static void distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones) {
         if (etapa == vecinos.size()) {
-            if (esSolucion(k, vecinos)) {
-               /* for (int v = 0; v < vecinos.size(); v++) {
-                    System.out.print("(" + vecinos.get(v).getValorDistribuir() + ",(" + vecinos.get(v).getPosX() + ", " + vecinos.get(v).getPosY() + "))");
-                    System.out.println();
-                    //todasDistribuciones.add(vecinos);                
-                }*/
-                ArrayList<Vecino> list = new ArrayList();
-                //list = vecinos.clone();
+            if (esSolucion(k, vecinos)) {               
+                ArrayList<Vecino> list = new ArrayList();                
                 for(int i = 0; i<vecinos.size();i++){
                     Vecino vec = (Vecino) vecinos.get(i).clone();
                     list.add(vec);
                 }
-                //list = (ArrayList)vecinos.clone();
-                todasDistribuciones.add(list);
+                if(!esRepetido(todasDistribuciones,list)) 
+                    todasDistribuciones.add(list);                                              
             }
         } else {
             for (int i = 0; i < vecinos.size(); i++) {
-                for (int j = 0; j <= k; j++) {
+                for (int j = 0; j <= actual; j++) {
                     if (esPosible(j, vecinos.get(i))) {
-                        vecinos.get(i).setValorDistribuir(j);
-                        distribucion(etapa + 1, k, actual - j, vecinos, todasDistribuciones);                        
+                        vecinos.get(i).setValorDistribuir(j);                        
+                        distribucion(etapa + 1, k, actual-j, vecinos, todasDistribuciones);                        
                     }
                 }
             }
+        }        
+    }
+    
+    public static boolean esRepetido(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> list){
+        boolean repetido = false;
+        for(int i = 0 ; i<todasDistribuciones.size() ; i++){           
+            if(todasDistribuciones.get(i).toString().equals(list.toString())) 
+                repetido = true;
         }
-        return todasDistribuciones;
+        return repetido;
     }
     
     public static boolean esSolucion(int k, ArrayList<Vecino> vecinos){
@@ -220,7 +224,7 @@ public class SistemasInteligentes {
                 suma += vecinos.get(i).getValorDistribuir();
             }
         return (suma == k);
-    }
+    }  
     
     public static boolean esPosible(int pesoAñadir, Vecino veci){ 
         return (pesoAñadir+veci.getValor() <= veci.getMax());

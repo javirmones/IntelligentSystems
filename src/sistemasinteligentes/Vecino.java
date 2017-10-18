@@ -20,16 +20,6 @@ public class Vecino implements Cloneable{
         
     }
     
-     public Object clone(){
-        Object obj=null;
-        try{
-            obj=super.clone();
-        }catch(CloneNotSupportedException ex){
-            System.out.println(" no se puede duplicar");
-        }
-        return obj;
-    }
-    
     public Vecino (int posX, int posY, int max, int valor, int valorDistribuir){
         this.posX = posX;
         this.posY = posY;       
@@ -77,7 +67,17 @@ public class Vecino implements Cloneable{
     public void setValorDistribuir(int valorDistribuir) {
         this.valorDistribuir = valorDistribuir;
     }
-
+    
+    public Object clone(){
+        Object obj=null;
+        try{
+            obj=super.clone();
+        }catch(CloneNotSupportedException ex){
+            System.out.println(" no se puede duplicar");
+        }
+        return obj;
+    }
+    
     @Override
     public String toString() {
         return  "(" + valorDistribuir + ",(" + posX + ", " + posY +"))";
