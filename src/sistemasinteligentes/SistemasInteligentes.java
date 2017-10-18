@@ -178,10 +178,11 @@ public class SistemasInteligentes {
         int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
         ArrayList<Vecino> vecinos = generarVecinos(t);              
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
-        
+        ArrayList todasAcciones = new ArrayList();
         distribucion(0,s,s,vecinos,todasDistribuciones);
-        for(int i = 0 ; i<todasDistribuciones.size() ; i++){
-            System.out.println(todasDistribuciones.get(i));           
+        todasAcciones = accion(todasDistribuciones, vecinos);
+        for(int i = 0 ; i<todasAcciones.size() ; i++){
+            System.out.println(todasAcciones.get(i));           
         }
         
     }
@@ -207,6 +208,24 @@ public class SistemasInteligentes {
                 }
             }
         }        
+    }
+    
+    public static ArrayList accion(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> vecinos){
+        ArrayList todasAcciones = new ArrayList();
+        int coste = 1;
+        for(int i = 0; i < vecinos.size(); i++){
+            ArrayList posicionVecino = new ArrayList();
+            posicionVecino.add(vecinos.get(i).getPosX());
+            posicionVecino.add(vecinos.get(i).getPosY());
+            for(int j = 0; j < todasDistribuciones.size(); j++){
+                ArrayList accion = new ArrayList();
+                accion.add(posicionVecino.toString());
+                accion.add(todasDistribuciones.get(j));
+                accion.add(coste);
+                todasAcciones.add(accion);
+            }
+        }
+        return todasAcciones;
     }
     
     public static boolean esRepetido(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> list){
