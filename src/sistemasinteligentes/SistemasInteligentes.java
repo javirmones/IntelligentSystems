@@ -213,7 +213,7 @@ public class SistemasInteligentes {
     public static ArrayList accion(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> vecinos){
         ArrayList todasAcciones = new ArrayList();
         int coste = 1;
-        for(int i = 0; i < vecinos.size(); i++){
+        for(int i = 0; i < vecinos.size(); i++){ 
             ArrayList posicionVecino = new ArrayList();
             posicionVecino.add(vecinos.get(i).getPosX());
             posicionVecino.add(vecinos.get(i).getPosY());
