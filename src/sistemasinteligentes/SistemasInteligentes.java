@@ -178,13 +178,14 @@ public class SistemasInteligentes {
         int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
         ArrayList<Vecino> vecinos = generarVecinos(t);              
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
-        ArrayList todasAcciones = new ArrayList();
+        
         distribucion(0,s,s,vecinos,todasDistribuciones);
+        
+        ArrayList<ArrayList> todasAcciones = new ArrayList();
         todasAcciones = accion(todasDistribuciones, vecinos);
         for(int i = 0 ; i<todasAcciones.size() ; i++){
             System.out.println(todasAcciones.get(i));           
-        }
-        
+        }               
     }
 
     public static void distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones) {
