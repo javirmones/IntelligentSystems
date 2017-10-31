@@ -16,7 +16,7 @@ public class EspacioEstados {
     private int[][] estadoTerreno;
     private int Xt; //Parametros posicion tractor
     private int Yt; //Parametros posicion tractor
-    private ArrayList accion; //N, S, E, O
+    private ArrayList accion;
     
     public EspacioEstados(int[][] state, ArrayList accion) {
         this.estadoTerreno = state;

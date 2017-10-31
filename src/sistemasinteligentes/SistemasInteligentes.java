@@ -178,14 +178,24 @@ public class SistemasInteligentes {
         int s = t.terreno[t.getXt()][t.getYt()] - t.getK();
         ArrayList<Vecino> vecinos = generarVecinos(t);              
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
-        
         distribucion(0,s,s,vecinos,todasDistribuciones);
         
         ArrayList<ArrayList> todasAcciones = new ArrayList();
         todasAcciones = accion(todasDistribuciones, vecinos);
         for(int i = 0 ; i<todasAcciones.size() ; i++){
             System.out.println(todasAcciones.get(i));           
-        }               
+        }  
+        EspacioEstados e = new EspacioEstados(t.terreno, todasAcciones);
+        int xt = (int)(todasAcciones.get(0).get(0).toString().charAt(1) - 48);
+        int yt = (int)(todasAcciones.get(0).get(0).toString().charAt(4) - 48);
+        int peso1 = (int)(todasAcciones.get(0).get(1).toString().charAt(2) - 48);
+        int posx1 = (int)(todasAcciones.get(0).get(1).toString().charAt(5) - 48);
+        int posy1 = (int)(todasAcciones.get(0).get(1).toString().charAt(8) - 48);
+        System.out.println("xt: "+ xt);
+        System.out.println("yt: "+ yt);
+        System.out.println("peso a distribuir: "+ peso1);    
+        System.out.println("posicion x a distribuir: "+ posx1);
+        System.out.println("posicion y a distribuir: "+ posy1);
     }
 
     public static void distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones) {
@@ -215,7 +225,7 @@ public class SistemasInteligentes {
         ArrayList todasAcciones = new ArrayList();
         int coste = 1;
         for(int i = 0; i < vecinos.size(); i++){ 
-            ArrayList posicionVecino = new ArrayList();
+            ArrayList<Integer> posicionVecino = new ArrayList();
             posicionVecino.add(vecinos.get(i).getPosX());
             posicionVecino.add(vecinos.get(i).getPosY());
             for(int j = 0; j < todasDistribuciones.size(); j++){
