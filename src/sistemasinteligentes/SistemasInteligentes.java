@@ -55,7 +55,7 @@ public class SistemasInteligentes {
         } while(salir == false);
 
     }
-
+    
     public static Terreno cargarDatosFichero() throws Exception {
         Terreno t = null;
         try {
@@ -101,6 +101,25 @@ public class SistemasInteligentes {
         return t; //Retornamos el terreno
     }
 
+    public static void escrituraFichero(Terreno t) {
+        File archivo = new File("DistribucionesTerreno.txt");
+	try{                    
+            FileWriter fl = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fl);
+            pw.print(t.getXt()+" "+t.getYt()+" "+t.getK()+" "+t.getMax()+" "+t.getColumnas()+" "+t.getFilas());
+            pw.println("");
+            for(int i = 0; i < t.getFilas(); i++){
+                for(int j = 0; j < t.getColumnas(); j++){
+                    pw.print(" " + t.terreno[i][j]);
+                }
+                pw.println();
+            } 
+        pw.close();
+        }catch(IOException ex){
+            System.out.println("ERROR");
+        }
+    }
+    
     public static void mostrarTerreno(Terreno t){
         for(int i = 0; i < t.getFilas(); i++){
             for(int j = 0; j < t.getColumnas(); j++){
@@ -132,25 +151,6 @@ public class SistemasInteligentes {
                 }
             }
         }while(restante != 0);
-    }
-
-    public static void escrituraFichero(Terreno t) {
-        File archivo = new File("DistribucionesTerreno.txt");
-	try{                    
-            FileWriter fl = new FileWriter(archivo);
-            PrintWriter pw = new PrintWriter(fl);
-            pw.print(t.getXt()+" "+t.getYt()+" "+t.getK()+" "+t.getMax()+" "+t.getColumnas()+" "+t.getFilas());
-            pw.println("");
-            for(int i = 0; i < t.getFilas(); i++){
-                for(int j = 0; j < t.getColumnas(); j++){
-                    pw.print(" " + t.terreno[i][j]);
-                }
-                pw.println();
-            } 
-        pw.close();
-        }catch(IOException ex){
-            System.out.println("ERROR");
-        }
     }
     
     public static ArrayList generarVecinos(Terreno t){
@@ -184,18 +184,12 @@ public class SistemasInteligentes {
         todasAcciones = accion(todasDistribuciones, vecinos);
         for(int i = 0 ; i<todasAcciones.size() ; i++){
             System.out.println(todasAcciones.get(i));           
-        }  
-        EspacioEstados e = new EspacioEstados(t.terreno, todasAcciones);
-        int xt = (int)(todasAcciones.get(0).get(0).toString().charAt(1) - 48);
-        int yt = (int)(todasAcciones.get(0).get(0).toString().charAt(4) - 48);
-        int peso1 = (int)(todasAcciones.get(0).get(1).toString().charAt(2) - 48);
-        int posx1 = (int)(todasAcciones.get(0).get(1).toString().charAt(5) - 48);
-        int posy1 = (int)(todasAcciones.get(0).get(1).toString().charAt(8) - 48);
-        System.out.println("xt: "+ xt);
-        System.out.println("yt: "+ yt);
-        System.out.println("peso a distribuir: "+ peso1);    
-        System.out.println("posicion x a distribuir: "+ posx1);
-        System.out.println("posicion y a distribuir: "+ posy1);
+        }                          
+        
+        for(int i = 0 ; i < todasAcciones.size() ; i++){
+            EspacioEstados c = new EspacioEstados(t.terreno, todasAcciones.get(i), t.getXt(), t.getYt());
+            c.fSucesores();        
+        }
     }
 
     public static void distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones) {
@@ -239,6 +233,7 @@ public class SistemasInteligentes {
         return todasAcciones;
     }
     
+    //Metodos complementarios para la distribucion
     public static boolean esRepetido(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> list){
         boolean repetido = false;
         for(int i = 0 ; i<todasDistribuciones.size() ; i++){           
