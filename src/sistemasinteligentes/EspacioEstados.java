@@ -6,6 +6,7 @@
 package sistemasinteligentes;
 
 import java.util.ArrayList;
+import utilidades.MatricesOperaciones;
 
 /**
  *
@@ -80,18 +81,9 @@ public class EspacioEstados {
         }                    
         
         System.out.println("\nAccion: "+accion+"\nEstado: \n PosXT: "+Xt+" PosYT: "+Yt+"\n Terreno:");
-        mostrarTerreno(copyTerreno);
+        MatricesOperaciones.mostrarMatriz(copyTerreno);
         System.out.println("Coste:"+accion.get(2).toString());
-    }
-    
-    public static void mostrarTerreno(int [][] t){
-        for(int i = 0; i < t.length; i++){
-            for(int j = 0; j < t.length; j++){
-                System.out.print(" " + t[i][j] + " ");
-            }
-            System.out.println();
-        }        
-    }
+    }   
     
     public int [][] copiarTerreno(int [][] estadoTerreno, int [][] copyTerreno){
         for(int i = 0 ; i < estadoTerreno.length ; i++){

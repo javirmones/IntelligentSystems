@@ -9,10 +9,8 @@ package sistemasinteligentes;
  * @author Adrian Muñoz, Javier Monescillo, Angel Sanchez
  *
  */
-import java.util.Random;
 import utilidades.*;
 import java.util.*;
-import java.io.*;
 import ficheros.Ficheros;
 import ficheros.Teclado;
 
@@ -51,14 +49,6 @@ public class Principal {
             }
         } while (salir == false);
 
-    }
-
-    public void mostrarMatriz(int[][] b) {
-        for (int i = 0; i < b.length; i++) {
-            for (int j = 0; j < b[0].length; j++) {
-                System.out.println("" + b[i][j]);
-            }
-        }
     }
 
     public ArrayList generarVecinos(Terreno t) {

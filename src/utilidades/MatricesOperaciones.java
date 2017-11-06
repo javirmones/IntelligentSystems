@@ -27,5 +27,13 @@ public class MatricesOperaciones{
         return s;
     }
     
-  
+    public static void mostrarMatriz(int[][] b) {
+        for (int i = 0; i < b.length; i++) {
+            for (int j = 0; j < b[0].length; j++) {
+                System.out.print("" + b[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+    
 }//MatricesOperaciones
