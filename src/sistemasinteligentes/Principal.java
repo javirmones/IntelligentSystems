@@ -17,7 +17,6 @@ import ficheros.Teclado;
 public class Principal {
 
     public void principal() throws Exception {
-
         boolean salir = false;
         System.out.println("\n----Práctica Sistemas Inteligentes----\n");
         do {
