@@ -56,9 +56,9 @@ public class EspacioEstados {
         
         Estado e = new Estado(copyTerreno, Xt, Yt);
         listaEstadosSucesores.add(e);
-        /*System.out.println("\nAccion: "+accion);
+        System.out.println("\nAccion: "+accion);
         System.out.println("Coste:"+accion.get(2).toString());        
-        System.out.println(e.toString());*/
+        System.out.println(e.toString());
         return listaEstadosSucesores;
     }   
     

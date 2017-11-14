@@ -29,15 +29,17 @@ public class Principal {
                     Teclado o = new Teclado();
                     Ficheros f = new Ficheros();
                     Terreno t = o.cargarDatosTeclado();
+                    Estado e = new Estado(t.getTerreno(), t.getXt(), t.getYt());
                     t.mostrarTerreno();
                     f.escrituraFichero(t);
-                    inicioDistribucion(t);
+                    inicioDistribucion(t,e);
                     break;
                 case 2:
                     Ficheros fic = new Ficheros();
                     Terreno a = fic.cargarDatosFichero();
+                    Estado es = new Estado(a.getTerreno(), a.getXt(), a.getYt());
                     a.mostrarTerreno();
-                    inicioDistribucion(a);
+                    inicioDistribucion(a, es);
                     break;
                 case 3:
                     salir = true;
@@ -72,7 +74,7 @@ public class Principal {
         return vecino;
     }
 
-    public void inicioDistribucion(Terreno t) {
+    public void inicioDistribucion(Terreno t, Estado e) {
         int[][] aux = t.getTerreno();
         int s = aux[t.getXt()][t.getYt()] - t.getK();
         ArrayList<Vecino> vecinos = generarVecinos(t);
@@ -80,7 +82,7 @@ public class Principal {
         distribucion(0, s, s, vecinos, todasDistribuciones);
 
         ArrayList<ArrayList> todasAcciones = new ArrayList();
-        todasAcciones = accion(todasDistribuciones, vecinos);
+        todasAcciones = accion(todasDistribuciones, vecinos, e);
         for (int i = 0; i < todasAcciones.size(); i++) {
             System.out.println(todasAcciones.get(i));
         }
@@ -109,15 +111,15 @@ public class Principal {
                     if (esPosible(j, vecinos.get(i))) {
                         vecinos.get(i).setValorDistribuir(j);
                         distribucion(etapa + 1, k, actual - j, vecinos, todasDistribuciones);
-                    }
+                    }   
                 }
             }
         }
     }
 
-    public ArrayList accion(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> vecinos) {
+    public ArrayList accion(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> vecinos, Estado e) {
+        int costo = 0;
         ArrayList todasAcciones = new ArrayList();
-        int coste = 1;
         for (int i = 0; i < vecinos.size(); i++) {
             ArrayList<Integer> posicionVecino = new ArrayList();
             posicionVecino.add(vecinos.get(i).getPosX());
@@ -126,7 +128,8 @@ public class Principal {
                 ArrayList accion = new ArrayList();
                 accion.add(posicionVecino.toString());
                 accion.add(todasDistribuciones.get(j));
-                accion.add(coste);
+                costo = e.costo(todasDistribuciones.get(j));
+                accion.add(costo);
                 todasAcciones.add(accion);
             }
         }

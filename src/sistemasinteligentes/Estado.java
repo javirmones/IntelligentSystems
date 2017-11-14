@@ -5,6 +5,8 @@
  */
 package sistemasinteligentes;
 
+import java.util.ArrayList;
+
 import utilidades.MatricesOperaciones;
 
 /**
@@ -47,6 +49,14 @@ public class Estado {
         this.Yt = newYt;
     }
     
+    public int costo(ArrayList accion){
+        int costo = 0;
+        for(int i=0; i < 4; i++){;
+            costo += (int) accion.get(i).toString().charAt(1)-48;
+        }
+        costo += 1;
+        return costo;
+    }
     @Override
     public String toString(){
         return "Estado:\n PosXT: "+Xt+" PosYT: "+Yt+"\n Terreno:\n" + MatricesOperaciones.mostrar(terreno);
