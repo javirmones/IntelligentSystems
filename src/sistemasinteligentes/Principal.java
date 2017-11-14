@@ -52,42 +52,49 @@ public class Principal {
 
     }
 
-    public ArrayList generarVecinos(Terreno t) {
-        int[][] aux = t.getTerreno();
+    public ArrayList generarVecinos(Terreno t, Estado e) {
+        int[][] aux = e.getTerreno();
         ArrayList<Vecino> vecino = new ArrayList();
-        if (t.getXt() - 1 >= 0) {
-            Vecino vec1 = new Vecino(t.getXt() - 1, t.getYt(), t.getMax(), aux[t.getXt() - 1][t.getYt()], 0);
+        if (e.getXt() - 1 >= 0) {
+            Vecino vec1 = new Vecino(e.getXt() - 1, e.getYt(), t.getMax(), aux[e.getXt() - 1][e.getYt()], 0);
             vecino.add(vec1);
         }
-        if (t.getXt() + 1 < t.getFilas()) {
-            Vecino vec2 = new Vecino(t.getXt() + 1, t.getYt(), t.getMax(), aux[t.getXt() + 1][t.getYt()], 0);
+        if (e.getXt() + 1 < t.getFilas()) {
+            Vecino vec2 = new Vecino(e.getXt() + 1, e.getYt(), t.getMax(), aux[e.getXt() + 1][e.getYt()], 0);
             vecino.add(vec2);
         }
-        if (t.getYt() - 1 >= 0) {
-            Vecino vec3 = new Vecino(t.getXt(), t.getYt() - 1, t.getMax(), aux[t.getXt()][t.getYt() - 1], 0);
+        if (e.getYt() - 1 >= 0) {
+            Vecino vec3 = new Vecino(e.getXt(), e.getYt() - 1, t.getMax(), aux[e.getXt()][e.getYt() - 1], 0);
             vecino.add(vec3);
         }
-        if (t.getYt() + 1 < t.getColumnas()) {
-            Vecino vec4 = new Vecino(t.getXt(), t.getYt() + 1, t.getMax(), aux[t.getXt()][t.getYt() + 1], 0);
+        if (e.getYt() + 1 < t.getColumnas()) {
+            Vecino vec4 = new Vecino(e.getXt(), e.getYt() + 1, t.getMax(), aux[e.getXt()][e.getYt() + 1], 0);
             vecino.add(vec4);
         }
         return vecino;
     }
 
     public void inicioDistribucion(Terreno t, Estado e) {
-        int[][] aux = t.getTerreno();
-        int s = aux[t.getXt()][t.getYt()] - t.getK();
-        ArrayList<Vecino> vecinos = generarVecinos(t);
+        int[][] aux = t.getTerreno(); //Matriz auxiliar para sacar s
+        int s = aux[t.getXt()][t.getYt()] - t.getK(); //Cantidad que se puede distribuir
+        
+        ArrayList<Vecino> vecinos = generarVecinos(t,e); //Array que guarda y genera las casillas adyacentes del tractor
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
-        distribucion(0, s, s, vecinos, todasDistribuciones);
+        
+        distribucion(0, s, s, vecinos, todasDistribuciones); //Saca todas las distribuciones posibles en los vecinos
 
-        ArrayList<ArrayList> todasAcciones = new ArrayList();
-        todasAcciones = accion(todasDistribuciones, vecinos, e);
+        ArrayList<ArrayList> todasAcciones = new ArrayList(); //Array que saca las acciones a partir de las distribuciones
+        todasAcciones = accion(todasDistribuciones, vecinos, e); //Saca todas las acciones posibles (MovTractor, Distribucion, Coste)-->ACCION
+        
+        /*Imprime todas las acciones*/
         for (int i = 0; i < todasAcciones.size(); i++) {
             System.out.println(todasAcciones.get(i));
         }
-
+        
+        /*Crea los estados*/
         for (int i = 0; i < todasAcciones.size(); i++) {
+            Estado estado = new Estado(t.getTerreno(), t.getXt(), t.getYt());
+            
             EspacioEstados c = new EspacioEstados(t.getTerreno(), todasAcciones.get(i), t.getXt(), t.getYt());
             c.fSucesores();
         }
