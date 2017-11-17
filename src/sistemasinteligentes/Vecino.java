@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistemasinteligentes;
 
 /**
- *
- * @author Angel
- */
+ * @author Ángel Sánchez González, Adrián Muñoz Llanos, Javier Monescillo Buitrón
+ **/
+
 public class Vecino implements Cloneable{
     private int posX;
     private int posY;
@@ -17,7 +12,7 @@ public class Vecino implements Cloneable{
     private int valorDistribuir;
     
     public Vecino (){
-        
+        //Constructor vacio
     }
     
     public Vecino (int posX, int posY, int max, int valor, int valorDistribuir){
@@ -81,7 +76,5 @@ public class Vecino implements Cloneable{
     @Override
     public String toString() {
         return  "(" + valorDistribuir + ",(" + posX + ", " + posY +"))";
-    }
-    
-    
+    }        
 }

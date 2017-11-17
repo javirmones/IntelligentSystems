@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistemasinteligentes;
 
 import java.util.Random;
 
 /**
- *
- * @author 05937379
- */
+ * @author Ángel Sánchez González, Adrián Muñoz Llanos, Javier Monescillo Buitrón
+ **/
+
 public class Terreno {
 
     private int Xt; //Poscion del tractor en X
@@ -97,17 +92,7 @@ public class Terreno {
         return V;
     }
 
-    public void mostrarTerreno() {
-        for (int i = 0; i < Filas; i++) {
-            for (int j = 0; j < Columnas; j++) {
-                System.out.print(" " + terreno[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    public void rellenarTerreno() {
+    public void rellenarTerreno() { //Metodo para rellenar el terreno de manera aleatoria
         Random rnd = new Random();
         int restante = V;
         int[][] aux = terreno;
@@ -135,5 +120,5 @@ public class Terreno {
     public String toString() {
         return "Terreno{" + "Xt=" + Xt + ", Yt=" + Yt + ", K=" + K + ", max=" + max + ", Columnas=" + Columnas + ", Filas=" + Filas + ", V=" + V + '}';
     }
-
+    
 }

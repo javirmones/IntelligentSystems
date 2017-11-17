@@ -1,30 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistemasinteligentes;
 
 /**
- *
- * @author javi
- */
+ * @author Ángel Sánchez González, Adrián Muñoz Llanos, Javier Monescillo Buitrón
+ **/
+
 public class Nodo {
 
-    private EspacioEstados estado;
+    private Estado estado;
     private int costo;
     private String accion;
     private int valor;
     private int profundidad;
     private Nodo padre;
 
-    public Nodo(EspacioEstados ep) { //Construccion del nodo raiz
+    public Nodo(Estado ep) { //Construccion del nodo raiz
         this.estado=ep;
         costo=0;
         accion=null;
         profundidad=0;
-        padre=null;
-        
+        padre=null;        
     }
 
     public int getValor() {

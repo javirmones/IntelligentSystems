@@ -1,40 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistemasinteligentes;
 
 /**
- *
- * @author absit
- */
+ * @author Ángel Sánchez González, Adrián Muñoz Llanos, Javier Monescillo Buitrón
+ **/
+
 public class Problema {
     
-    private Terreno terreno;
-    private EspacioEstados espacioEstados;
+    private Terreno terreno;  
     private Estado estadoInicial;
     
-    public Problema(Terreno t, EspacioEstados espacioEstados){
+    public Problema(Terreno t){
         this.terreno = terreno;
-        this.espacioEstados = espacioEstados;
         estadoInicial = new Estado(terreno.getTerreno(), terreno.getXt(), terreno.getYt());
     }
-
+  
     public Terreno getTerreno() {
         return terreno;
     }
 
     public void setTerreno(Terreno terreno) {
         this.terreno = terreno;
-    }
-
-    public EspacioEstados getEspacioEstados() {
-        return espacioEstados;
-    }
-
-    public void setEspacioEstados(EspacioEstados espacioEstados) {
-        this.espacioEstados = espacioEstados;
     }
 
     public Estado getEstadoInicial() {
