@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public class Distribucion {    
 
-    public ArrayList inicioDistribucion(Terreno t, Estado e) {
-        int[][] aux = t.getTerreno(); //Matriz auxiliar para sacar s
-        int s = aux[t.getXt()][t.getYt()] - t.getK(); //Cantidad que se puede distribuir
+    public ArrayList inicioDistribucion(Estado e) {
+        int[][] aux = e.getTerreno(); //Matriz auxiliar para sacar s
+        int s = aux[e.getXt()][e.getYt()] - e.getK(); //Cantidad que se puede distribuir
         
-        ArrayList<Vecino> vecinos = generarVecinos(t,e); //Array que guarda y genera las casillas adyacentes del tractor
+        ArrayList<Vecino> vecinos = generarVecinos(e); //Array que guarda y genera las casillas adyacentes del tractor
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
         
         distribucion(0, s, s, vecinos, todasDistribuciones); //Saca todas las distribuciones posibles en los vecinos
@@ -23,23 +23,23 @@ public class Distribucion {
         return todasAcciones;
     }
 
-    private ArrayList generarVecinos(Terreno t, Estado e) {
+    private ArrayList generarVecinos(Estado e) {
         int[][] aux = e.getTerreno();
         ArrayList<Vecino> vecino = new ArrayList();
         if (e.getXt() - 1 >= 0) {
-            Vecino vec1 = new Vecino(e.getXt() - 1, e.getYt(), t.getMax(), aux[e.getXt() - 1][e.getYt()], 0);
+            Vecino vec1 = new Vecino(e.getXt() - 1, e.getYt(), e.getMax(), aux[e.getXt() - 1][e.getYt()], 0);
             vecino.add(vec1);
         }
-        if (e.getXt() + 1 < t.getFilas()) {
-            Vecino vec2 = new Vecino(e.getXt() + 1, e.getYt(), t.getMax(), aux[e.getXt() + 1][e.getYt()], 0);
+        if (e.getXt() + 1 < e.getFilas()) {
+            Vecino vec2 = new Vecino(e.getXt() + 1, e.getYt(), e.getMax(), aux[e.getXt() + 1][e.getYt()], 0);
             vecino.add(vec2);
         }
         if (e.getYt() - 1 >= 0) {
-            Vecino vec3 = new Vecino(e.getXt(), e.getYt() - 1, t.getMax(), aux[e.getXt()][e.getYt() - 1], 0);
+            Vecino vec3 = new Vecino(e.getXt(), e.getYt() - 1, e.getMax(), aux[e.getXt()][e.getYt() - 1], 0);
             vecino.add(vec3);
         }
-        if (e.getYt() + 1 < t.getColumnas()) {
-            Vecino vec4 = new Vecino(e.getXt(), e.getYt() + 1, t.getMax(), aux[e.getXt()][e.getYt() + 1], 0);
+        if (e.getYt() + 1 < e.getColumnas()) {
+            Vecino vec4 = new Vecino(e.getXt(), e.getYt() + 1, e.getMax(), aux[e.getXt()][e.getYt() + 1], 0);
             vecino.add(vec4);
         }
         return vecino;

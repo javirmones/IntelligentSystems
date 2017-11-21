@@ -6,7 +6,7 @@
 package ficheros;
 
 
-import sistemasinteligentes.Terreno;
+import sistemasinteligentes.Estado;
 import utilidades.leer;
 
 /**
@@ -15,7 +15,7 @@ import utilidades.leer;
  */
 public class Teclado {
     
-    public Terreno cargarDatosTeclado() throws Exception{
+    public Estado cargarDatosTeclado() throws Exception{
 
         int Columnas = leer.entero("Introduzca las columnas del terreno");
         int Filas = leer.entero("Introduzca el número de filas del terreno");
@@ -24,9 +24,9 @@ public class Teclado {
         int max = leer.entero("Introduzca el peso máximo para una casilla");
         int K = leer.entero("Introduzca el peso recomendado para una casilla", 0, max);
 
-        Terreno t = new Terreno(Xt, Yt, K, max, Columnas, Filas); //Se genera un pbjeto terreno con los datos introducidos
-        t.rellenarTerreno();
+        Estado ei = new Estado(Xt, Yt, K, max, Columnas, Filas); //Se genera un pbjeto terreno con los datos introducidos
+        ei.rellenarTerreno();
 
-        return t; //Retornamos el terreno
+        return ei; //Retornamos el terreno
     }
 }

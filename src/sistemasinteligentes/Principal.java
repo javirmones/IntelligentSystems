@@ -14,6 +14,8 @@ public class Principal {
     public void principal() throws Exception {
         Teclado o = new Teclado();
         Ficheros f = new Ficheros();
+        Problema problema = new Problema();
+        Estado ei = new Estado();
         boolean salir = false;
         System.out.println("\n----Práctica Sistemas Inteligentes----\n");
         do {
@@ -23,17 +25,22 @@ public class Principal {
                     + "3.\t Salir\n");
             switch (condicion) {
                 case 1:
-                    Terreno t = o.cargarDatosTeclado();
-                    Estado e = new Estado(t.getTerreno(), t.getXt(), t.getYt());
-                    MatricesOperaciones.mostrar(t.getTerreno());
-                    f.escrituraFichero(t);
-                    e.sucesores(e, t);
+                    ei = o.cargarDatosTeclado();                    
+                    MatricesOperaciones.mostrar(ei.getTerreno());
+                    
+                    f.escrituraFichero(ei);
+                    
+                    problema = new Problema(ei);
+                    
+                    primeraLLamada(problema);
                     break;
                 case 2:
-                    Terreno a = f.cargarDatosFichero();
-                    Estado es = new Estado(a.getTerreno(), a.getXt(), a.getYt());
-                    MatricesOperaciones.mostrar(a.getTerreno());
-                    es.sucesores(es, a);
+                    ei = f.cargarDatosFichero();                    
+                    MatricesOperaciones.mostrar(ei.getTerreno());
+                    
+                    problema = new Problema(ei);
+                    
+                    primeraLLamada(problema);
                     break;
                 case 3:
                     salir = true;
@@ -43,6 +50,12 @@ public class Principal {
                     break;
             }
         } while (salir == false);
+    }
+
+    public void primeraLLamada(Problema p){
+        Estado es = p.getEstadoInicial();
+        espacioEstados ee = new espacioEstados();
+        ee.sucesores(es);      
     }
 
 }

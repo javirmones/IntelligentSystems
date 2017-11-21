@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import sistemasinteligentes.Terreno;
+import sistemasinteligentes.Estado;
 import utilidades.leer;
 
 /**
@@ -21,9 +21,9 @@ import utilidades.leer;
  */
 public class Ficheros {
 
-    public Terreno cargarDatosFichero() throws Exception {
+    public Estado cargarDatosFichero() throws Exception {
 
-        Terreno t = null;
+        Estado ei = null;
         try {
 
             int j = 0;
@@ -33,10 +33,10 @@ public class Ficheros {
             String[] auxM;
             int[][] matrizTerreno = new int[Integer.parseInt(aux[4])][Integer.parseInt(aux[5])];
 
-            t = new Terreno(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]),
+            ei = new Estado(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]),
                     Integer.parseInt(aux[3]), Integer.parseInt(aux[4]), Integer.parseInt(aux[5]));
 
-            matrizTerreno = t.getTerreno();
+            matrizTerreno = ei.getTerreno();
 
             while (lectura.hasNext()) {
                 lectura.skip(" ");
@@ -50,19 +50,19 @@ public class Ficheros {
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado");
         }
-        return t;
+        return ei;
     }
 
-    public void escrituraFichero(Terreno t) {
+    public void escrituraFichero(Estado ei) {
         File archivo = new File("DistribucionesTerreno.txt");
         try {
-            int[][] m = t.getTerreno();
+            int[][] m = ei.getTerreno();
             FileWriter fl = new FileWriter(archivo);
             PrintWriter pw = new PrintWriter(fl);
-            pw.print(t.getXt() + " " + t.getYt() + " " + t.getK() + " " + t.getMax() + " " + t.getColumnas() + " " + t.getFilas());
+            pw.print(ei.getXt() + " " + ei.getYt() + " " + ei.getK() + " " + ei.getMax() + " " + ei.getColumnas() + " " + ei.getFilas());
             pw.println("");
-            for (int i = 0; i < t.getFilas(); i++) {
-                for (int j = 0; j < t.getColumnas(); j++) {
+            for (int i = 0; i < ei.getFilas(); i++) {
+                for (int j = 0; j < ei.getColumnas(); j++) {
                     pw.print(" " + m[i][j]);
                 }
                 pw.println();

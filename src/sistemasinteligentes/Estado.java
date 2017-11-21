@@ -1,6 +1,7 @@
 package sistemasinteligentes;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import utilidades.MatricesOperaciones;
 
@@ -12,7 +13,26 @@ public class Estado {
     private int terreno [][];
     private int Xt;
     private int Yt;
+    private int K; //Peso recomendado de cada casilla
+    private int max; //Peso maximo de cada casilla
+    private int Columnas; //Columnas que tendra el terreno
+    private int Filas; //Filas que tendra el terreno
+    private int V; //Peso total a repartir en todas las columnas
     
+    public Estado(){
+        //Constructor vacio
+    }
+     
+    public Estado(int Xt, int Yt, int K, int max, int Columnas, int Filas) { //Llamada para el estado inicial
+        this.Xt = Xt;
+        this.Yt = Yt;
+        this.K = K;
+        this.max = max;
+        this.Columnas = Columnas;
+        this.Filas = Filas;
+        this.V = Columnas * Filas * K;
+        this.terreno = new int[Filas][Columnas];
+    }
     
     public Estado(int [][] terreno, int Xt, int Yt){
         this.terreno = terreno;
@@ -42,84 +62,72 @@ public class Estado {
     
     public void setYt(int newYt){
         this.Yt = newYt;
+    }            
+    
+    public int getK() {
+        return K;
+    }
+
+    public void setK(int K) {
+        this.K = K;
+    }
+    
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
     }    
     
-    public ArrayList sucesores(Estado e, Terreno t){
-        Distribucion dist = new Distribucion(); //Creamos un objeto distribucion para sacar todas las acciones
-        ArrayList<ArrayList> accion = dist.inicioDistribucion(t, e); //Guardamos las acciones en el ArrayList
-        for (int i = 0; i < accion.size(); i++) System.out.println(accion.get(i)); /*Imprime todas las acciones*/       
-        
-        ArrayList listaSucesores = new ArrayList();        
-        for(int i = 0 ; i<accion.size() ; i++){
-            Estado es = fSucesores(e,accion.get(i)); //Guardamos el estado que sacamos a partir de la accion
-            
-            //Metemos en una lista cada sucesor (ACCION / ESTADO / COSTE)
-            listaSucesores.add(accion.get(0));             
-            listaSucesores.add(es);
-            listaSucesores.add(costo(accion.get(i)));                                 
-            
-            System.out.println("\nAccion: "+listaSucesores.get(1));
-            System.out.println("Coste:"+listaSucesores.get(3));        
-            System.out.println((Estado)listaSucesores.get(2));
-        }
-        
-        return listaSucesores; 
+    public int getColumnas() {
+        return Columnas;
     }
+
+    public void setColumnas(int Columna) {
+        this.Columnas = Columna;
+    }    
     
-    private Estado fSucesores(Estado e, ArrayList accion){
-        int Xt, Yt;
-        ArrayList<Estado> listaEstadosSucesores = new ArrayList();
-        ArrayList aux = new ArrayList(); //ArrayList que contiene los datos de una acción        
-        
-        int [][] copyTerreno = new int [e.getTerreno().length][e.getTerreno()[0].length]; //estadoActual        
-        Xt = (int)(accion.get(0).toString().charAt(1) - 48); //Posicion X tractor
-        Yt = (int)(accion.get(0).toString().charAt(4) - 48); //Posicion Y tractor
-                
-        aux = sacarDatosAccion(aux, accion);                      
-        copyTerreno = copiarTerreno(e.getTerreno(), copyTerreno);
-        
-        while(!aux.isEmpty()){            
-            int peso = (int) aux.remove(0);
-            
-            copyTerreno[(int) aux.remove(0)][(int) aux.remove(0)] += peso;
-            copyTerreno[e.getXt()][e.getYt()] -=peso; //estadoActual
-        }
-        
-        Estado es = new Estado(copyTerreno, Xt, Yt); //Creamos un estado del sucesor del estado parametro
-        
-        return es;
-    }   
+    public int getFilas() {
+        return Filas;
+    }
+
+    public void setFilas(int Filas) {
+        this.Filas = Filas;
+    }    
     
-    public int [][] copiarTerreno(int [][] estadoTerreno, int [][] copyTerreno){
-        for(int i = 0 ; i < estadoTerreno.length ; i++){
-            for(int j = 0 ; j < estadoTerreno[0].length; j++){
-                copyTerreno[i][j] = estadoTerreno[i][j];
+    public int getV() {
+        return V;
+    }
+
+    public void setV(int V) {
+        this.V = V;
+    }    
+
+        public void rellenarTerreno() { //Metodo para rellenar el terreno de manera aleatoria
+        Random rnd = new Random();
+        int restante = V;
+        int[][] aux = terreno;
+        do {
+            for (int i = 0; i < Filas; i++) {
+                for (int j = 0; j < Columnas; j++) {
+                    if (restante > max) {
+                        int peso = rnd.nextInt(max);
+                        if (aux[i][j] + peso <= max) {
+                            aux[i][j] += peso;
+                            restante -= peso;
+                        }
+                    } else {
+                        if (aux[i][j] + restante <= max) {
+                            aux[i][j] += restante;
+                            restante = 0;
+                        }
+                    }
+                }
             }
-        }
-        return copyTerreno;
+        } while (restante != 0);
     }
     
-    public ArrayList sacarDatosAccion(ArrayList aux, ArrayList<ArrayList> accion){//En este metodo guardamos en un vector los datos que tiene cada accion                
-        int contador = 1;
-        for(int i = 2 ; i < accion.get(1).toString().length() ; i+=3){            
-            aux.add((int)(accion.get(1).toString().charAt(i) - 48));
-            if(contador == 3){
-                i+=3;
-                contador = 0;
-            }
-            contador++;
-        }
-        return aux;
-    }
-    
-    public int costo(ArrayList accion){
-        int costo = 1;
-        for(int i=2; i < accion.get(1).toString().length() ; i+=12){
-            costo += (int) accion.get(1).toString().charAt(i)-48;
-        }
-        return costo;
-    }
-        
     @Override
     public String toString(){
         return "Estado:\n PosXT: "+Xt+" PosYT: "+Yt+"\n Terreno:\n" + MatricesOperaciones.mostrar(terreno);

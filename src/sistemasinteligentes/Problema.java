@@ -6,20 +6,24 @@ package sistemasinteligentes;
 
 public class Problema {
     
-    private Terreno terreno;  
-    private Estado estadoInicial;
     
-    public Problema(Terreno t){
-        this.terreno = terreno;
-        estadoInicial = new Estado(terreno.getTerreno(), terreno.getXt(), terreno.getYt());
+    private Estado estadoInicial;
+    private espacioEstados espacioEstado;
+    
+    public Problema(){
+        //Constructor vacio
+    }
+    
+    public Problema(Estado ei){
+        this.estadoInicial = ei;
     }
   
-    public Terreno getTerreno() {
-        return terreno;
+    public Estado getTerreno() {
+        return estadoInicial;
     }
 
-    public void setTerreno(Terreno terreno) {
-        this.terreno = terreno;
+    public void setTerreno(Estado estadoInicial) {
+        this.estadoInicial = estadoInicial;
     }
 
     public Estado getEstadoInicial() {
