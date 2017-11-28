@@ -2,25 +2,26 @@ package sistemasinteligentes;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- **/
+ *
+ */
+public class Vecino implements Cloneable {
 
-public class Vecino implements Cloneable{
     private int posX;
     private int posY;
     private int max;
     private int valor;
     private int valorDistribuir;
-    
-    public Vecino (){
+
+    public Vecino() {
         //Constructor vacio
     }
-    
-    public Vecino (int posX, int posY, int max, int valor, int valorDistribuir){
+
+    public Vecino(int posX, int posY, int max, int valor, int valorDistribuir) {
         this.posX = posX;
-        this.posY = posY;       
+        this.posY = posY;
         this.max = max;
         this.valor = valor;
-        this.valorDistribuir = valorDistribuir;        
+        this.valorDistribuir = valorDistribuir;
     }
 
     public int getPosX() {
@@ -62,19 +63,20 @@ public class Vecino implements Cloneable{
     public void setValorDistribuir(int valorDistribuir) {
         this.valorDistribuir = valorDistribuir;
     }
-    
-    public Object clone(){
-        Object obj=null;
-        try{
-            obj=super.clone();
-        }catch(CloneNotSupportedException ex){
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Object obj = null;
+        try {
+            obj = super.clone();
+        } catch (CloneNotSupportedException ex) {
             System.out.println(" no se puede duplicar");
         }
         return obj;
     }
-    
+
     @Override
     public String toString() {
-        return  "(" + valorDistribuir + ",(" + posX + ", " + posY +"))";
-    }        
+        return "(" + valorDistribuir + ",(" + posX + ", " + posY + "))";
+    }
 }
