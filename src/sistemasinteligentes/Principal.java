@@ -20,10 +20,10 @@ public class Principal {
     public void principal() throws Exception {
         Teclado o = new Teclado();
         Ficheros f = new Ficheros();
-        Problema problema = new Problema();
-        Estado ei = new Estado();
+        Problema problema;
+        Estado ei;
         boolean salir = false;
-        
+
         System.out.println("\n----Práctica Sistemas Inteligentes----\n");
         do {
             int condicion = leer.entero("Seleccione de que modo quiere generar el terreno: \n"
@@ -39,7 +39,7 @@ public class Principal {
 
                     problema = new Problema(ei);
 
-                    inicializar(problema);
+                    seleccionEstrategia(problema);
                     break;
                 case 2:
                     ei = f.cargarDatosFichero(); //Carga el estado inicial mediante fichero                  
@@ -47,7 +47,7 @@ public class Principal {
 
                     problema = new Problema(ei);
 
-                    inicializar(problema);
+                    seleccionEstrategia(problema);
                     break;
                 case 3:
                     salir = true;
@@ -59,36 +59,35 @@ public class Principal {
         } while (salir == false);
     }
 
-    public void seleccionEstrategia() {
-        System.out.println("Elige la estrategia:\n1.\tAnchura\n2.Profundidad Iterativa\n3.Prof.Acotada\n4.Prof.Simple\n5.Costo Uniforme\n6.A*\n7.");
-        int estrategia = leer.entero("");
+    public void seleccionEstrategia(Problema p) {
+        int profMax = leer.entero("Elige la profundidad maxima");
+        int estrategia = leer.entero("Elige la estrategia:\n1.\tAnchura\n2.\tProfundidad Iterativa\n3.\tProf.Acotada\n"
+                + "4.\tProf.Simple\n5.\tCosto Uniforme\n6.\tA*");
+
         switch (estrategia) {
             case 1:
+                busquedaAcotada("Anchura", profMax, p);
                 break;
-
             case 2:
+                int incProf = leer.entero("Introduce el incremento de profundidad");
+                busqueda("CualquierProfundidad", profMax, incProf, p);
                 break;
-
             case 3:
+                busquedaAcotada("CualquierProfundidad", profMax, p);
                 break;
-
             case 4:
+                busquedaAcotada("CualquierProfundidad", profMax, p);
                 break;
-
             case 5:
+                busquedaAcotada("Costo", profMax, p);
                 break;
-
             case 6:
+                busquedaAcotada("A*", profMax, p);
                 break;
-
-            case 7:
+            default:
+                System.out.println("Introduzca una opción correcta.");
                 break;
-
         }
-    }
-
-    public void inicializar(Problema p) {
-
     }
 
     public boolean busqueda(String estrategia, int profMax, int incProf, Problema p) {
@@ -143,9 +142,9 @@ public class Principal {
     public ArrayList crearNodos(ArrayList<Sucesor> listaSucesores, Nodo padre, int profundidadMax, String estrategia) {
         ArrayList<Nodo> listaNodos = new ArrayList();
         for (int i = 0; i < listaSucesores.size(); i++) {
-            if (estrategia == "A") {
-                //Calculo de la heuristica es decir introducir un nodo nuevo igual, lo que discuto es la lista de nodos
-            }
+            //  if (estrategia == "A") {
+            //Calculo de la heuristica es decir introducir un nodo nuevo igual, lo que discuto es la lista de nodos
+            //  }
             Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
                     listaSucesores.get(i).getAccion(), padre.getCosto() + listaSucesores.get(i).getCoste(),
                     padre.getProfundidad(), padre, estrategia);
@@ -172,6 +171,7 @@ public class Principal {
                 bw.write(stack.pop() + "\n");
             }
             bw.close();
+
         } catch (IOException ex) {
             Logger.getLogger(Problema.class.getName()).log(Level.SEVERE, null, ex);
         }

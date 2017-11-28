@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- **/
-
-public class Distribucion {    
+ *
+ */
+public class Distribucion {
 
     public ArrayList inicioDistribucion(Estado e) {
         int[][] aux = e.getTerreno(); //Matriz auxiliar para sacar s
         int s = aux[e.getXt()][e.getYt()] - e.getK(); //Cantidad que se puede distribuir
-        
+
         ArrayList<Vecino> vecinos = generarVecinos(e); //Array que guarda y genera las casillas adyacentes del tractor
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
-        
+
         distribucion(0, s, s, vecinos, todasDistribuciones); //Saca todas las distribuciones posibles en los vecinos
 
         ArrayList<ArrayList> todasAcciones = new ArrayList(); //Array que saca las acciones a partir de las distribuciones
         todasAcciones = accion(todasDistribuciones, vecinos, e); //Saca todas las acciones posibles (MovTractor, Distribucion, Coste)-->ACCION
-                                
+
         return todasAcciones;
     }
 
@@ -44,7 +44,7 @@ public class Distribucion {
         }
         return vecino;
     }
-    
+
     private void distribucion(int etapa, int k, int actual, ArrayList<Vecino> vecinos, ArrayList<ArrayList> todasDistribuciones) {
         if (etapa == vecinos.size()) {
             if (esSolucion(k, vecinos)) {
@@ -52,15 +52,15 @@ public class Distribucion {
                 for (int i = 0; i < vecinos.size(); i++) {
                     Vecino vec = (Vecino) vecinos.get(i).clone();
                     list.add(vec);
-                }                
-                todasDistribuciones.add(list);               
+                }
+                todasDistribuciones.add(list);
             }
-        } else {            
+        } else {
             for (int j = 0; j <= actual; j++) {
                 if (esPosible(j, vecinos.get(etapa))) {
                     vecinos.get(etapa).setValorDistribuir(j);
                     distribucion(etapa + 1, k, actual - j, vecinos, todasDistribuciones);
-                }   
+                }
             }
         }
     }
@@ -74,7 +74,7 @@ public class Distribucion {
             for (int j = 0; j < todasDistribuciones.size(); j++) {
                 ArrayList accion = new ArrayList();
                 accion.add(posicionVecino.toString());
-                accion.add(todasDistribuciones.get(j));                
+                accion.add(todasDistribuciones.get(j));
                 todasAcciones.add(accion);
             }
         }
@@ -82,16 +82,6 @@ public class Distribucion {
     }
 
     //Metodos complementarios para la distribucion
-    private boolean esRepetido(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> list) {
-        boolean repetido = false;
-        for (int i = 0; i < todasDistribuciones.size(); i++) {
-            if (todasDistribuciones.get(i).toString().equals(list.toString())) {
-                repetido = true;
-            }
-        }
-        return repetido;
-    }
-
     private boolean esSolucion(int k, ArrayList<Vecino> vecinos) {
         int suma = 0;
         for (int i = 0; i < vecinos.size(); i++) {

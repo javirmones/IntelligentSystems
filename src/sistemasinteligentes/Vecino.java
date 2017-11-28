@@ -64,8 +64,7 @@ public class Vecino implements Cloneable {
         this.valorDistribuir = valorDistribuir;
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         Object obj = null;
         try {
             obj = super.clone();
