@@ -4,7 +4,7 @@ package sistemasinteligentes;
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
  *
  */
-public class Nodo {
+public class Nodo implements Comparable<Nodo> {
 
     private Estado estado;
     private int costo;

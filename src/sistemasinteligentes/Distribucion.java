@@ -10,8 +10,10 @@ public class Distribucion {
 
     public ArrayList inicioDistribucion(Estado e) {
         int[][] aux = e.getTerreno(); //Matriz auxiliar para sacar s
-        int s = aux[e.getXt()][e.getYt()] - e.getK(); //Cantidad que se puede distribuir
-
+        int s = 0;
+        if(aux[e.getXt()][e.getYt()] > e.getK()){
+            s = aux[e.getXt()][e.getYt()] - e.getK(); //Cantidad que se puede distribuir
+        }
         ArrayList<Vecino> vecinos = generarVecinos(e); //Array que guarda y genera las casillas adyacentes del tractor
         ArrayList<ArrayList> todasDistribuciones = new ArrayList(); //Array que guarda todas las distribuciones posibles
 

@@ -28,6 +28,7 @@ public class Problema {
     }
 
     public ArrayList sucesores(Estado estado) {
+        espacioEstado = new espacioEstados();
         ArrayList<Sucesor> listaSucesores = espacioEstado.sucesores(estado);
         return listaSucesores;
     }

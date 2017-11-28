@@ -8,12 +8,16 @@ import java.util.ArrayList;
 
 public class espacioEstados {
         
+    public espacioEstados(){
+    }
+    
     public ArrayList sucesores(Estado e){
         Distribucion dist = new Distribucion(); //Creamos un objeto distribucion para sacar todas las acciones
         ArrayList<ArrayList> accion = dist.inicioDistribucion(e); //Guardamos las acciones en el ArrayList
-        for (int i = 0; i < accion.size(); i++) System.out.println(accion.get(i)); /*Imprime todas las acciones*/       
-        
-               
+        for (int i = 0; i < accion.size(); i++) 
+            System.out.println(accion.get(i)); /*Imprime todas las acciones*/       
+     
+        System.out.println("s");
         ArrayList<Sucesor> listaSucesores  = new ArrayList();
         for(int i = 0 ; i<accion.size() ; i++){
             Estado es = fSucesores(e,accion.get(i)); //Guardamos el estado que sacamos a partir de la accion
@@ -27,7 +31,7 @@ public class espacioEstados {
     
     private Estado fSucesores(Estado e, ArrayList accion){
         int Xt, Yt;
-        ArrayList<Estado> listaEstadosSucesores = new ArrayList();
+        //ArrayList<Estado> listaEstadosSucesores = new ArrayList();
         ArrayList aux = new ArrayList(); //ArrayList que contiene los datos de una acción        
         
         int [][] copyTerreno = new int [e.getTerreno().length][e.getTerreno()[0].length]; //estadoActual        

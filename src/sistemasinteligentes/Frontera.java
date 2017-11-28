@@ -5,8 +5,7 @@ import java.util.PriorityQueue;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- *
- */
+ **/
 public class Frontera {
 
     private PriorityQueue<Nodo> queue;
@@ -16,7 +15,7 @@ public class Frontera {
     }
 
     public void crearFrontera() {
-        queue = new PriorityQueue<>();
+        queue = new PriorityQueue();
     }
 
     public void insertarNodo(Nodo n) {
