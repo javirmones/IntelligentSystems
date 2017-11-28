@@ -3,11 +3,11 @@ package sistemasinteligentes;
 import java.util.ArrayList;
 
 /**
- * @author Ángel Sánchez González, Adrián Muñoz Llanos, Javier Monescillo Buitrón
+ * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
  **/
+
 public class espacioEstados {
-    
-    
+        
     public ArrayList sucesores(Estado e){
         Distribucion dist = new Distribucion(); //Creamos un objeto distribucion para sacar todas las acciones
         ArrayList<ArrayList> accion = dist.inicioDistribucion(e); //Guardamos las acciones en el ArrayList

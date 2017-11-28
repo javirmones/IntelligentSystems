@@ -1,7 +1,7 @@
 package sistemasinteligentes;
 
 /**
- * @author Ángel Sánchez González, Adrián Muñoz Llanos, Javier Monescillo Buitrón
+ * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
  **/
 
 public class Nodo {
@@ -15,14 +15,31 @@ public class Nodo {
 
     public Nodo(Estado ep) { //Construccion del nodo raiz
         this.estado=ep;
-        costo=0;
-        accion=null;
-        profundidad=0;
-        padre=null;        
+        this.costo=0;
+        this.accion=null;
+        this.profundidad=0;
+        this.padre=null;        
     }
-
+    
+    public Nodo(Estado estado, int costo, String accion, int valor, int profundidad, Nodo padre){
+        this.estado = estado;
+        this.costo = costo;
+        this.accion = accion;
+        this.valor = valor;
+        this.profundidad = profundidad;
+        this.padre = padre;
+    }
+    
+    public Estado getEstado(){
+        return this.estado;
+    }
+    
+    public void setEstado(Estado estado){
+        this.estado = estado;
+    }
+    
     public int getValor() {
-        return valor;
+        return this.valor;
     }
 
     public void setValor(int valor) {
@@ -30,7 +47,7 @@ public class Nodo {
     }
 
     public String getAccion() {
-        return accion;
+        return this.accion;
     }
 
     public void setAccion(String accion) {
@@ -38,7 +55,7 @@ public class Nodo {
     }
 
     public int getCosto() {
-        return costo;
+        return this.costo;
     }
 
     public void setCosto(int costo) {
@@ -46,7 +63,7 @@ public class Nodo {
     }
 
     public int getProfundidad() {
-        return profundidad;
+        return this.profundidad;
     }
 
     public void setProfundidad(int profundidad) {
@@ -54,7 +71,7 @@ public class Nodo {
     }
 
     public Nodo getPadre() {
-        return padre;
+        return this.padre;
     }
 
     public void setPadre(Nodo padre) {

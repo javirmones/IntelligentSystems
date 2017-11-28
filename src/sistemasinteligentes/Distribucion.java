@@ -52,20 +52,16 @@ public class Distribucion {
                 for (int i = 0; i < vecinos.size(); i++) {
                     Vecino vec = (Vecino) vecinos.get(i).clone();
                     list.add(vec);
-                }
-                //if (!esRepetido(todasDistribuciones, list)) {
-                    todasDistribuciones.add(list);
-                //}
+                }                
+                todasDistribuciones.add(list);               
             }
-        } else {
-            //for (int i = 0; i < vecinos.size(); i++) {
-                for (int j = 0; j <= actual; j++) {
-                    if (esPosible(j, vecinos.get(etapa))) {
-                        vecinos.get(etapa).setValorDistribuir(j);
-                        distribucion(etapa + 1, k, actual - j, vecinos, todasDistribuciones);
-                    }   
-                }
-            //}
+        } else {            
+            for (int j = 0; j <= actual; j++) {
+                if (esPosible(j, vecinos.get(etapa))) {
+                    vecinos.get(etapa).setValorDistribuir(j);
+                    distribucion(etapa + 1, k, actual - j, vecinos, todasDistribuciones);
+                }   
+            }
         }
     }
 
@@ -86,7 +82,7 @@ public class Distribucion {
     }
 
     //Metodos complementarios para la distribucion
-    /*private boolean esRepetido(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> list) {
+    private boolean esRepetido(ArrayList<ArrayList> todasDistribuciones, ArrayList<Vecino> list) {
         boolean repetido = false;
         for (int i = 0; i < todasDistribuciones.size(); i++) {
             if (todasDistribuciones.get(i).toString().equals(list.toString())) {
@@ -94,7 +90,7 @@ public class Distribucion {
             }
         }
         return repetido;
-    }*/
+    }
 
     private boolean esSolucion(int k, ArrayList<Vecino> vecinos) {
         int suma = 0;

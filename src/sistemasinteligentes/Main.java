@@ -1,7 +1,7 @@
 package sistemasinteligentes;
 
 /**
- * @author Ángel Sánchez González, Adrián Muñoz Llanos, Javier Monescillo Buitrón
+ * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
  **/
 
 public class Main {
