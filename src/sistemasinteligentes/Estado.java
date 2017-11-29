@@ -34,10 +34,15 @@ public class Estado {
         this.terreno = new int[Filas][Columnas];
     }
     
-    public Estado(int [][] terreno, int Xt, int Yt){
+    public Estado(int [][] terreno, int Xt, int Yt, int K, int max, int Columnas, int Filas){
         this.terreno = terreno;
         this.Xt = Xt;
         this.Yt = Yt;
+        this.K = K;
+        this.max = max;
+        this.Columnas = Columnas;
+        this.Filas = Filas;
+        this.V = Columnas * Filas * K;
     }
     
     public int [][] getTerreno(){

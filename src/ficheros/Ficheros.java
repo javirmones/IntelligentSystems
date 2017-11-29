@@ -27,7 +27,7 @@ public class Ficheros {
         try {
 
             int j = 0;
-            Scanner lectura = new Scanner(new File("FicheroPrueba.txt"));
+            Scanner lectura = new Scanner(new File("Problema.txt"));
             lectura.useDelimiter(" ");
             String[] aux = lectura.nextLine().split(" ");
             String[] auxM;

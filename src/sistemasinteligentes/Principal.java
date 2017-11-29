@@ -61,8 +61,8 @@ public class Principal {
 
     public void seleccionEstrategia(Problema p) {
         int profMax = leer.entero("Elige la profundidad maxima");
-        int estrategia = leer.entero("Elige la estrategia:\n1.\tAnchura\n2.\tProfundidad Iterativa\n3.\tProf.Acotada\n"
-                + "4.\tProf.Simple\n5.\tCosto Uniforme\n6.\tA*");
+        int estrategia = leer.entero("Elige la estrategia:\n1.\tAnchura\n2.\tProfundidad Acotada e Iterativa\n3."
+                + "3.\tProf.Simple\n4.\tCosto Uniforme\n5.\tA*");
 
         switch (estrategia) {
             case 1:
@@ -76,12 +76,9 @@ public class Principal {
                 busquedaAcotada("CualquierProfundidad", profMax, p);
                 break;
             case 4:
-                busquedaAcotada("CualquierProfundidad", profMax, p);
-                break;
-            case 5:
                 busquedaAcotada("Costo", profMax, p);
                 break;
-            case 6:
+            case 5:
                 busquedaAcotada("A*", profMax, p);
                 break;
             default:
@@ -116,7 +113,7 @@ public class Principal {
 
         Nodo nodoActual = null;
 
-        while (!solucion && !frontera.esVacia()) {
+        while (!solucion && !frontera.esVacia()) {            
             nodoActual = frontera.eliminarNodo();
             nodosVisitados.add(nodoActual);
             if (p.fObjetivo(nodoActual.getEstado(), p.getEstadoInicial().getK())) {
@@ -129,6 +126,7 @@ public class Principal {
                 }
             }
         }
+        //System.out.println(nodosVisitados);
         if (solucion) {
             System.out.println("Se ha encontrado una solución.");
             crearSolucion(nodoActual, estrategia);
@@ -158,6 +156,8 @@ public class Principal {
         int profundidad = n.getProfundidad();
         int costo = n.getCosto();
 
+        MatricesOperaciones.mostrarMatriz(n.getEstado().getTerreno());
+        
         for (int i = 0; i < profundidad; i++) { // Introducimos el conjunto de acciones en la pila para darle la vuelta.
             stack.push(n.getAccion());
             n = n.getPadre();

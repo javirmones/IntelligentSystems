@@ -48,7 +48,7 @@ public class espacioEstados {
             copyTerreno[e.getXt()][e.getYt()] -=peso; //estadoActual
         }
         
-        Estado es = new Estado(copyTerreno, Xt, Yt); //Creamos un estado del sucesor del estado parametro
+        Estado es = new Estado(copyTerreno, Xt, Yt, e.getK(), e.getMax(), e.getColumnas(), e.getFilas()); //Creamos un estado del sucesor del estado parametro
         
         return es;
     }   
