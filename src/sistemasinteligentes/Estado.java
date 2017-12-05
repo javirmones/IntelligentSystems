@@ -8,6 +8,7 @@ import utilidades.MatricesOperaciones;
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
  *
  */
+
 public class Estado {
 
     private int terreno[][];

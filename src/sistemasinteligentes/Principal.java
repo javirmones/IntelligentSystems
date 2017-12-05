@@ -100,7 +100,7 @@ public class Principal {
     }
 
     public boolean busquedaAcotada(String estrategia, int profMax, Problema p) throws NoSuchAlgorithmException {
-        Hashtable<String,Estado> tablaHash=new Hashtable<>();
+        Hashtable<String, Estado> tablaHash = new Hashtable<>();
         ArrayList<Sucesor> listaSucesores = new ArrayList();
         ArrayList<Nodo> listaNodos = new ArrayList();
         ArrayList<Nodo> nodosVisitados = new ArrayList();
@@ -114,9 +114,9 @@ public class Principal {
 
         Nodo nodoActual = null;
 
-        while (!solucion && !frontera.esVacia()) {     
+        while (!solucion && !frontera.esVacia()) {
             //tablaHash.put(p.getEstadoInicial().toHash(),p.getEstadoInicial());
-            
+
             nodoActual = frontera.eliminarNodo();
             nodosVisitados.add(nodoActual);
             if (p.fObjetivo(nodoActual.getEstado(), p.getEstadoInicial().getK())) {
@@ -142,14 +142,27 @@ public class Principal {
 
     public ArrayList crearNodos(ArrayList<Sucesor> listaSucesores, Nodo padre, int profundidadMax, String estrategia) {
         ArrayList<Nodo> listaNodos = new ArrayList();
+        int heuristica = 0;
+
         for (int i = 0; i < listaSucesores.size(); i++) {
             //  if (estrategia == "A") {
             //Calculo de la heuristica es decir introducir un nodo nuevo igual, lo que discuto es la lista de nodos
             //  }
-            Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
-                    listaSucesores.get(i).getAccion(), padre.getCosto() + listaSucesores.get(i).getCoste(),
-                    padre.getProfundidad(), padre, estrategia);
-            listaNodos.add(nuevoNodo);
+            if (estrategia.equals("A*")) {
+                heuristica = listaSucesores.get(i).getEstado().calculoHeuristica();
+                Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
+                        listaSucesores.get(i).getAccion(), padre.getCosto() + listaSucesores.get(i).getCoste(),
+                        padre.getProfundidad(), padre, estrategia, heuristica);
+                listaNodos.add(nuevoNodo);
+
+            } else {
+                Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
+                        listaSucesores.get(i).getAccion(), padre.getCosto() + listaSucesores.get(i).getCoste(),
+                        padre.getProfundidad(), padre, estrategia, heuristica);
+                listaNodos.add(nuevoNodo);
+
+            }
+
         }
         return listaNodos;
     }
@@ -160,7 +173,7 @@ public class Principal {
         int costo = n.getCosto();
 
         MatricesOperaciones.mostrarMatriz(n.getEstado().getTerreno());
-        
+
         for (int i = 0; i < profundidad; i++) { // Introducimos el conjunto de acciones en la pila para darle la vuelta.
             stack.push(n.getAccion());
             n = n.getPadre();
@@ -179,10 +192,9 @@ public class Principal {
             Logger.getLogger(Problema.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void poda(Problema p) throws NoSuchAlgorithmException{
-        
-       
+
+    public void poda(Problema p) throws NoSuchAlgorithmException {
+
     }
 
 }

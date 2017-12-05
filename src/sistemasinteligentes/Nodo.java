@@ -12,6 +12,7 @@ public class Nodo implements Comparable<Nodo> {
     private int valor;
     private int profundidad;
     private Nodo padre;
+    private int heuristica;
 
     public Nodo(Estado ep) { //Construccion del nodo raiz
         this.estado = ep;
@@ -19,15 +20,17 @@ public class Nodo implements Comparable<Nodo> {
         this.accion = null;
         this.profundidad = 0;
         this.padre = null;
+        this.heuristica = 0;
     }
 
-    public Nodo(Estado estado, int costo, String accion, int valor, int profundidad, Nodo padre, String estrategia) { //Un nodo cualquiera
+    public Nodo(Estado estado, int costo, String accion, int valor, int profundidad, Nodo padre, String estrategia, int heuristica) { //Un nodo cualquiera
         this.estado = estado;
         this.costo = padre.getCosto() + 1; // El costo para pasar de un nodo a otro se incrementa en uno
         this.accion = accion;
         this.valor = valor;
         this.profundidad = profundidad + 1; //Al pasar de un nodo a otro se incrementa la profundidad, es decir cuando se genera un nodo nuevo por otro
         this.padre = padre;
+        this.heuristica = heuristica;
 
         switch (estrategia) { //Segun la estrategia elegida se toman distintos valores
             case "Anchura":
@@ -40,9 +43,17 @@ public class Nodo implements Comparable<Nodo> {
                 this.valor = costo;
                 break;
             case "A*":
-                // valor = costo + heuristica; //Sacar heurística
+                this.valor = costo + heuristica; //Sacar heurística
                 break;
         }
+    }
+
+    public int getHeuristica() {
+        return heuristica;
+    }
+
+    public void setHeuristica(int heuristica) {
+        this.heuristica = heuristica;
     }
 
     public Estado getEstado() {
