@@ -2,7 +2,6 @@ package sistemasinteligentes;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
-
 import utilidades.MatricesOperaciones;
 
 /**
@@ -136,6 +135,18 @@ public class Estado {
 
     public String toHash() throws NoSuchAlgorithmException {
         return Hash.md5(this.toString());
+    }
+
+    public int calculoHeuristica() {
+        int heuristica = 0;
+        for (int i = 0; i < Filas; i++) {
+            for (int j = 0; j < Columnas; j++) {
+                if (terreno[i][j] != K) {
+                    heuristica++;
+                }
+            }
+        }
+        return heuristica + 1;
     }
 
     @Override
