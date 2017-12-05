@@ -12,6 +12,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,7 +60,7 @@ public class Principal {
         } while (salir == false);
     }
 
-    public void seleccionEstrategia(Problema p) {
+    public void seleccionEstrategia(Problema p) throws NoSuchAlgorithmException {
         int profMax = leer.entero("Elige la profundidad maxima");
         int estrategia = leer.entero("Elige la estrategia:\n1.\tAnchura\n2.\tProfundidad Acotada e Iterativa\n3."
                 + "3.\tProf.Simple\n4.\tCosto Uniforme\n5.\tA*");
@@ -87,7 +88,7 @@ public class Principal {
         }
     }
 
-    public boolean busqueda(String estrategia, int profMax, int incProf, Problema p) {
+    public boolean busqueda(String estrategia, int profMax, int incProf, Problema p) throws NoSuchAlgorithmException {
         int profActual = incProf;
         boolean solucion = false;
 
@@ -98,8 +99,8 @@ public class Principal {
         return solucion;
     }
 
-    public boolean busquedaAcotada(String estrategia, int profMax, Problema p) {
-
+    public boolean busquedaAcotada(String estrategia, int profMax, Problema p) throws NoSuchAlgorithmException {
+        Hashtable<String,Estado> tablaHash=new Hashtable<>();
         ArrayList<Sucesor> listaSucesores = new ArrayList();
         ArrayList<Nodo> listaNodos = new ArrayList();
         ArrayList<Nodo> nodosVisitados = new ArrayList();
@@ -113,7 +114,9 @@ public class Principal {
 
         Nodo nodoActual = null;
 
-        while (!solucion && !frontera.esVacia()) {            
+        while (!solucion && !frontera.esVacia()) {     
+            //tablaHash.put(p.getEstadoInicial().toHash(),p.getEstadoInicial());
+            
             nodoActual = frontera.eliminarNodo();
             nodosVisitados.add(nodoActual);
             if (p.fObjetivo(nodoActual.getEstado(), p.getEstadoInicial().getK())) {
@@ -175,6 +178,11 @@ public class Principal {
         } catch (IOException ex) {
             Logger.getLogger(Problema.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void poda(Problema p) throws NoSuchAlgorithmException{
+        
+       
     }
 
 }
