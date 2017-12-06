@@ -13,7 +13,7 @@ import java.math.BigInteger;
  *
  * @author absit
  */
-public class Hash {
+public class Encriptacion {
 
     public static String md5(String e) throws NoSuchAlgorithmException {
         MessageDigest m = MessageDigest.getInstance("MD5");

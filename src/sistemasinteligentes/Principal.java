@@ -100,7 +100,7 @@ public class Principal {
     }
 
     public boolean busquedaAcotada(String estrategia, int profMax, Problema p) throws NoSuchAlgorithmException {
-        Hashtable<String, String> tablaHash = new Hashtable<String,String>();
+        Hashtable<String, String> tablaHash = new Hashtable<String, String>();
         ArrayList<Sucesor> listaSucesores = new ArrayList();
         ArrayList<Nodo> listaNodos = new ArrayList();
         Estado estadoActual;
@@ -114,33 +114,22 @@ public class Principal {
         frontera.insertarNodo(raiz); //Inclusion de la raiz en la frontera
 
         Nodo nodoActual = null;
-        
-        tablaHash.put(raiz.getEstado().toHash(),String.valueOf(raiz.getValor()));
+
+        tablaHash.put(raiz.getEstado().toMD5(), String.valueOf(raiz.getValor()));
 
         while (!solucion && !frontera.esVacia()) {
 
             nodoActual = frontera.eliminarNodo();
-            estadoActual= nodoActual.getEstado();
-           //nodosVisitados.add(nodoActual);
-           //añadir a la lista de nodos normal
+            estadoActual = nodoActual.getEstado();
+            //nodosVisitados.add(nodoActual);
+            //añadir a la lista de nodos normal
             if (p.fObjetivo(nodoActual.getEstado(), p.getEstadoInicial().getK())) {
                 solucion = true;
             } else {
                 if (nodoActual.getProfundidad() <= profMax) {
                     listaSucesores = p.sucesores(nodoActual.getEstado());
                     listaNodos = crearNodos(listaSucesores, nodoActual, profMax, estrategia);
-                    for (int i = 0; i < listaNodos.size(); i++) {
-
-                        if (tablaHash.containsKey(listaNodos.get(i).getEstado().toHash())) {
-                            if (Integer.parseInt(tablaHash.get(listaNodos.get(i).getEstado().toHash())) > listaNodos.get(i).getValor()) {
-                                tablaHash.remove(listaNodos.get(i).getEstado().toHash());
-                                tablaHash.put(listaNodos.get(i).getEstado().toHash(), String.valueOf(listaNodos.get(i).getValor()));
-                                listaNodos.remove(i);
-                            }else{
-                                listaNodos.remove(i);
-                            }
-                        }
-                    }
+                    poda(listaNodos, tablaHash);
                     frontera.insertarLista(listaNodos);
                 }
             }
@@ -156,10 +145,20 @@ public class Principal {
         }
     }
 
-    public void poda(){
-        
+    public void poda(ArrayList<Nodo> listaNodos, Hashtable<String, String> tablaHash) throws NoSuchAlgorithmException {
+        for (int i = 0; i < listaNodos.size(); i++) {
+            if (tablaHash.containsKey(listaNodos.get(i).getEstado().toMD5())) {
+                if (Integer.parseInt(tablaHash.get(listaNodos.get(i).getEstado().toMD5())) > listaNodos.get(i).getValor()) {
+                    tablaHash.remove(listaNodos.get(i).getEstado().toMD5());
+                    tablaHash.put(listaNodos.get(i).getEstado().toMD5(), String.valueOf(listaNodos.get(i).getValor()));
+                    listaNodos.remove(i);
+                } else {
+                    listaNodos.remove(i);
+                }
+            }
+        }
     }
-    
+
     public ArrayList crearNodos(ArrayList<Sucesor> listaSucesores, Nodo padre, int profundidadMax, String estrategia) {
         ArrayList<Nodo> listaNodos = new ArrayList();
         int heuristica = 0;
@@ -187,7 +186,6 @@ public class Principal {
         return listaNodos;
     }
 
-    
     public void crearSolucion(Nodo n, String estrategia) {
         Stack<String> stack = new Stack<>();
         int profundidad = n.getProfundidad();
@@ -214,5 +212,4 @@ public class Principal {
         }
     }
 
- 
 }

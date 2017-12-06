@@ -8,7 +8,6 @@ import utilidades.MatricesOperaciones;
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
  *
  */
-
 public class Estado {
 
     private int terreno[][];
@@ -134,8 +133,8 @@ public class Estado {
         } while (restante != 0);
     }
 
-    public String toHash() throws NoSuchAlgorithmException {
-        return Hash.md5(this.toString());
+    public String toMD5() throws NoSuchAlgorithmException {
+        return Encriptacion.md5(this.toString());
     }
 
     public int calculoHeuristica() {
