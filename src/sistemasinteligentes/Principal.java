@@ -100,10 +100,11 @@ public class Principal {
     }
 
     public boolean busquedaAcotada(String estrategia, int profMax, Problema p) throws NoSuchAlgorithmException {
-        Hashtable<String, Estado> tablaHash = new Hashtable<>();
+        Hashtable<String, String> tablaHash = new Hashtable<String,String>();
         ArrayList<Sucesor> listaSucesores = new ArrayList();
         ArrayList<Nodo> listaNodos = new ArrayList();
-        ArrayList<Nodo> nodosVisitados = new ArrayList();
+        Estado estadoActual;
+        //ArrayList<Nodo> nodosVisitados = new ArrayList();
         boolean solucion = false;
 
         Frontera frontera = new Frontera(); //Creacion de la frontera
@@ -113,18 +114,33 @@ public class Principal {
         frontera.insertarNodo(raiz); //Inclusion de la raiz en la frontera
 
         Nodo nodoActual = null;
+        
+        tablaHash.put(raiz.getEstado().toHash(),String.valueOf(raiz.getValor()));
 
         while (!solucion && !frontera.esVacia()) {
-            //tablaHash.put(p.getEstadoInicial().toHash(),p.getEstadoInicial());
 
             nodoActual = frontera.eliminarNodo();
-            nodosVisitados.add(nodoActual);
+            estadoActual= nodoActual.getEstado();
+           //nodosVisitados.add(nodoActual);
+           //añadir a la lista de nodos normal
             if (p.fObjetivo(nodoActual.getEstado(), p.getEstadoInicial().getK())) {
                 solucion = true;
             } else {
                 if (nodoActual.getProfundidad() <= profMax) {
                     listaSucesores = p.sucesores(nodoActual.getEstado());
                     listaNodos = crearNodos(listaSucesores, nodoActual, profMax, estrategia);
+                    for (int i = 0; i < listaNodos.size(); i++) {
+
+                        if (tablaHash.containsKey(listaNodos.get(i).getEstado().toHash())) {
+                            if (Integer.parseInt(tablaHash.get(listaNodos.get(i).getEstado().toHash())) > listaNodos.get(i).getValor()) {
+                                tablaHash.remove(listaNodos.get(i).getEstado().toHash());
+                                tablaHash.put(listaNodos.get(i).getEstado().toHash(), String.valueOf(listaNodos.get(i).getValor()));
+                                listaNodos.remove(i);
+                            }else{
+                                listaNodos.remove(i);
+                            }
+                        }
+                    }
                     frontera.insertarLista(listaNodos);
                 }
             }
@@ -140,6 +156,10 @@ public class Principal {
         }
     }
 
+    public void poda(){
+        
+    }
+    
     public ArrayList crearNodos(ArrayList<Sucesor> listaSucesores, Nodo padre, int profundidadMax, String estrategia) {
         ArrayList<Nodo> listaNodos = new ArrayList();
         int heuristica = 0;
@@ -167,6 +187,7 @@ public class Principal {
         return listaNodos;
     }
 
+    
     public void crearSolucion(Nodo n, String estrategia) {
         Stack<String> stack = new Stack<>();
         int profundidad = n.getProfundidad();
@@ -193,8 +214,5 @@ public class Principal {
         }
     }
 
-    public void poda(Problema p) throws NoSuchAlgorithmException {
-
-    }
-
+ 
 }
