@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- *
- */
+ **/
 public class Problema {
 
     private Estado estadoInicial;

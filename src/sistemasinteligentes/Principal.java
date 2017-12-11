@@ -2,8 +2,7 @@ package sistemasinteligentes;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- *
- */
+ **/
 import utilidades.*;
 import java.util.*;
 import ficheros.Ficheros;
@@ -62,25 +61,28 @@ public class Principal {
 
     public void seleccionEstrategia(Problema p) throws NoSuchAlgorithmException {
         int profMax = leer.entero("Elige la profundidad maxima");
-        int estrategia = leer.entero("Elige la estrategia:\n1.\tAnchura\n2.\tProfundidad Acotada e Iterativa\n3."
-                + "3.\tProf.Simple\n4.\tCosto Uniforme\n5.\tA*");
+        int estrategia = leer.entero("Elige la estrategia:\n1.\tAnchura\n2.\tProfundidad Iterativa"
+                + "\n3.\tProfundida Simple\n4.\tProfundidad Acotada\n5.\tCosto Uniforme\n6.\tA*");
 
         switch (estrategia) {
             case 1:
-                busquedaAcotada("Anchura", profMax, p);
+                busqueda("Anchura", profMax, p);
                 break;
             case 2:
                 int incProf = leer.entero("Introduce el incremento de profundidad");
-                busqueda("CualquierProfundidad", profMax, incProf, p);
+                busquedaIter("CualquierProfundidad", profMax, incProf, p);
                 break;
             case 3:
-                busquedaAcotada("CualquierProfundidad", profMax, p);
+                busqueda("CualquierProfundidad", profMax, p);
                 break;
             case 4:
-                busquedaAcotada("Costo", profMax, p);
+                int acoProf = leer.entero("Introduce hasta la profundidad que va a llegar");                
                 break;
             case 5:
-                busquedaAcotada("A*", profMax, p);
+                busqueda("Costo", profMax, p);
+                break;
+            case 6:
+                busqueda("A*", profMax, p);
                 break;
             default:
                 System.out.println("Introduzca una opción correcta.");
@@ -88,19 +90,19 @@ public class Principal {
         }
     }
 
-    public boolean busqueda(String estrategia, int profMax, int incProf, Problema p) throws NoSuchAlgorithmException {
+    public boolean busquedaIter(String estrategia, int profMax, int incProf, Problema p) throws NoSuchAlgorithmException {
         int profActual = incProf;
         boolean solucion = false;
 
         while (!solucion && profActual <= profMax) {
-            solucion = busquedaAcotada(estrategia, profActual, p);
+            solucion = busqueda(estrategia, profActual, p);
             profActual += incProf;
         }
         return solucion;
-    }
+    }  
 
-    public boolean busquedaAcotada(String estrategia, int profMax, Problema p) throws NoSuchAlgorithmException {
-        Hashtable<String, String> tablaHash = new Hashtable<String, String>();
+    public boolean busqueda(String estrategia, int profMax, Problema p) throws NoSuchAlgorithmException {
+        Hashtable<String, Nodo> tablaHash = new Hashtable<String, Nodo>();
         ArrayList<Sucesor> listaSucesores = new ArrayList();
         ArrayList<Nodo> listaNodos = new ArrayList();
         Estado estadoActual;
@@ -111,11 +113,10 @@ public class Principal {
         frontera.crearFrontera();
 
         Nodo raiz = new Nodo(p.getEstadoInicial());
+        tablaHash.put(raiz.getEstado().toMD5(), raiz);
         frontera.insertarNodo(raiz); //Inclusion de la raiz en la frontera
 
         Nodo nodoActual = null;
-
-        tablaHash.put(raiz.getEstado().toMD5(), String.valueOf(raiz.getValor()));
 
         while (!solucion && !frontera.esVacia()) {
 
@@ -128,15 +129,14 @@ public class Principal {
             } else {
                 if (nodoActual.getProfundidad() <= profMax) {
                     listaSucesores = p.sucesores(nodoActual.getEstado());
-                    listaNodos = crearNodos(listaSucesores, nodoActual, profMax, estrategia);
-                    poda(listaNodos, tablaHash);
+                    listaNodos = crearNodos(listaSucesores, nodoActual, profMax, estrategia, tablaHash);
                     frontera.insertarLista(listaNodos);
                 }
             }
         }
         //System.out.println(nodosVisitados);
         if (solucion) {
-            System.out.println("Se ha encontrado una solución.");
+            System.out.println("Se ha encontrado una solución.");         
             crearSolucion(nodoActual, estrategia);
             return true;
         } else {
@@ -145,48 +145,40 @@ public class Principal {
         }
     }
 
-    public void poda(ArrayList<Nodo> listaNodos, Hashtable<String, String> tablaHash) throws NoSuchAlgorithmException {
-        for (int i = 0; i < listaNodos.size(); i++) {
-            if (tablaHash.containsKey(listaNodos.get(i).getEstado().toMD5())) {
-                if (Integer.parseInt(tablaHash.get(listaNodos.get(i).getEstado().toMD5())) > listaNodos.get(i).getValor()) {
-                    tablaHash.remove(listaNodos.get(i).getEstado().toMD5());
-                    tablaHash.put(listaNodos.get(i).getEstado().toMD5(), String.valueOf(listaNodos.get(i).getValor()));
-                    listaNodos.remove(i);
-                } else {
-                    listaNodos.remove(i);
-                }
+    public Boolean podar(Nodo nodo, Hashtable<String, Nodo> tablaHash) throws NoSuchAlgorithmException {
+        Boolean estaEnTabla = false;
+
+        if (tablaHash.containsKey(nodo.getEstado().toMD5())) {
+            if (nodo.getValor() > tablaHash.get(nodo.getEstado().toMD5()).getValor()) {
+                estaEnTabla = true;
+            } else {
+                tablaHash.put(nodo.getEstado().toMD5(), nodo);
             }
+        } else {
+            tablaHash.put(nodo.getEstado().toMD5(), nodo);
         }
+        return estaEnTabla;
     }
 
-    public ArrayList crearNodos(ArrayList<Sucesor> listaSucesores, Nodo padre, int profundidadMax, String estrategia) {
+    public ArrayList crearNodos(ArrayList<Sucesor> listaSucesores, Nodo padre, int profundidadMax, String estrategia,  Hashtable<String, Nodo> tablaHash) throws NoSuchAlgorithmException {
         ArrayList<Nodo> listaNodos = new ArrayList();
-        int heuristica = 0;
 
-        for (int i = 0; i < listaSucesores.size(); i++) {
-            //  if (estrategia == "A") {
-            //Calculo de la heuristica es decir introducir un nodo nuevo igual, lo que discuto es la lista de nodos
-            //  }
+        for (int i = 0; i < listaSucesores.size(); i++) {   
             if (estrategia.equals("A*")) {
-                heuristica = listaSucesores.get(i).getEstado().calculoHeuristica();
                 Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
-                        listaSucesores.get(i).getAccion(), padre.getCosto() + listaSucesores.get(i).getCoste(),
-                        padre.getProfundidad(), padre, estrategia, heuristica);
-                listaNodos.add(nuevoNodo);
-
+                    listaSucesores.get(i).getAccion(), padre.getProfundidad(), padre, estrategia);                
+                if(!podar(nuevoNodo, tablaHash)) listaNodos.add(nuevoNodo);
             } else {
                 Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
-                        listaSucesores.get(i).getAccion(), padre.getCosto() + listaSucesores.get(i).getCoste(),
-                        padre.getProfundidad(), padre, estrategia, heuristica);
-                listaNodos.add(nuevoNodo);
-
+                    listaSucesores.get(i).getAccion(), padre.getProfundidad(), padre, estrategia,0);
+                if(!podar(nuevoNodo, tablaHash)) listaNodos.add(nuevoNodo);
             }
-
         }
         return listaNodos;
     }
 
     public void crearSolucion(Nodo n, String estrategia) {
+        //cambiar todo hacerlo en paquete ficheros->escritura
         Stack<String> stack = new Stack<>();
         int profundidad = n.getProfundidad();
         int costo = n.getCosto();
@@ -211,5 +203,4 @@ public class Principal {
             Logger.getLogger(Problema.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
  **/
-
 public class espacioEstados {
         
     public espacioEstados(){
+        //Constructor vacio
     }
     
     public ArrayList sucesores(Estado e){

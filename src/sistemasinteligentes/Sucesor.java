@@ -2,8 +2,7 @@ package sistemasinteligentes;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- *
- */
+ **/
 public class Sucesor {
 
     private String accion;

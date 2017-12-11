@@ -2,8 +2,7 @@ package sistemasinteligentes;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- *
- */
+ **/
 public class Nodo implements Comparable<Nodo> {
 
     private Estado estado;
@@ -22,17 +21,16 @@ public class Nodo implements Comparable<Nodo> {
         this.padre = null;
         this.heuristica = 0;
     }
-
-    public Nodo(Estado estado, int costo, String accion, int valor, int profundidad, Nodo padre, String estrategia, int heuristica) { //Un nodo cualquiera
+    
+    public Nodo(Estado estado, int costo, String accion, int profundidad, Nodo padre, String estrategia, int heuristica) { //Constructor todas estrategias
         this.estado = estado;
-        this.costo = padre.getCosto() + 1; // El costo para pasar de un nodo a otro se incrementa en uno
-        this.accion = accion;
-        this.valor = valor;
-        this.profundidad = profundidad + 1; //Al pasar de un nodo a otro se incrementa la profundidad, es decir cuando se genera un nodo nuevo por otro
+        this.costo = costo;
+        this.accion = accion;        
+        this.profundidad = profundidad + 1;
         this.padre = padre;
         this.heuristica = heuristica;
 
-        switch (estrategia) { //Segun la estrategia elegida se toman distintos valores
+        switch (estrategia) { //Calculo valor segun estrategia
             case "Anchura":
                 this.valor = profundidad;
                 break;
@@ -43,7 +41,32 @@ public class Nodo implements Comparable<Nodo> {
                 this.valor = costo;
                 break;
             case "A*":
-                this.valor = costo + heuristica; //Sacar heurística
+                this.valor = costo + heuristica;
+                break;
+        }
+    }
+
+    
+    public Nodo(Estado estado, int costo, String accion, int profundidad, Nodo padre, String estrategia) { //Constructor estrategia A*
+        this.estado = estado;
+        this.costo = costo;
+        this.accion = accion;        
+        this.profundidad = profundidad + 1;
+        this.padre = padre;
+        this.heuristica = calculoHeuristica();
+
+        switch (estrategia) { //Calculo valor segun estrategia
+            case "Anchura":
+                this.valor = profundidad;
+                break;
+            case "CualquierProfundidad":
+                this.valor = -profundidad;
+                break;
+            case "Costo":
+                this.valor = costo;
+                break;
+            case "A*":
+                this.valor = costo + heuristica;
                 break;
         }
     }
@@ -104,6 +127,18 @@ public class Nodo implements Comparable<Nodo> {
         this.padre = padre;
     }
 
+    private int calculoHeuristica() {
+        int heuristica = 0;
+        for (int i = 0; i < estado.getFilas(); i++) {
+            for (int j = 0; j < estado.getColumnas(); j++) {
+                if (estado.getTerreno()[i][j] != estado.getK()) {
+                    heuristica++;
+                }
+            }
+        }
+        return heuristica;
+    }
+    
     public int compareTo(Nodo e) {
         int r = 0;
         if (e.getValor() < getValor()) {

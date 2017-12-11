@@ -6,8 +6,7 @@ import utilidades.MatricesOperaciones;
 
 /**
  * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
- *
- */
+ **/
 public class Estado {
 
     private int terreno[][];
@@ -135,18 +134,6 @@ public class Estado {
 
     public String toMD5() throws NoSuchAlgorithmException {
         return Encriptacion.md5(this.toString());
-    }
-
-    public int calculoHeuristica() {
-        int heuristica = 0;
-        for (int i = 0; i < Filas; i++) {
-            for (int j = 0; j < Columnas; j++) {
-                if (terreno[i][j] != K) {
-                    heuristica++;
-                }
-            }
-        }
-        return heuristica + 1;
     }
 
     @Override
