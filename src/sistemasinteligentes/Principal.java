@@ -62,7 +62,7 @@ public class Principal {
     public void seleccionEstrategia(Problema p) throws NoSuchAlgorithmException {
         int profMax = leer.entero("Elige la profundidad maxima");
         int estrategia = leer.entero("Elige la estrategia:\n1.\tAnchura\n2.\tProfundidad Iterativa"
-                + "\n3.\tProfundida Simple\n4.\tProfundidad Acotada\n5.\tCosto Uniforme\n6.\tA*");
+                + "\n3.\tProfundida Simple\n4.\tCosto Uniforme\n5.\tA*");
 
         switch (estrategia) {
             case 1:
@@ -76,12 +76,9 @@ public class Principal {
                 busqueda("CualquierProfundidad", profMax, p);
                 break;
             case 4:
-                int acoProf = leer.entero("Introduce hasta la profundidad que va a llegar");                
-                break;
-            case 5:
                 busqueda("Costo", profMax, p);
                 break;
-            case 6:
+            case 5:
                 busqueda("A*", profMax, p);
                 break;
             default:
@@ -118,8 +115,7 @@ public class Principal {
 
         Nodo nodoActual = null;
 
-        while (!solucion && !frontera.esVacia()) {
-
+        while (!solucion && !frontera.esVacia()) {            
             nodoActual = frontera.eliminarNodo();
             estadoActual = nodoActual.getEstado();
             //nodosVisitados.add(nodoActual);
@@ -133,6 +129,8 @@ public class Principal {
                     frontera.insertarLista(listaNodos);
                 }
             }
+            listaSucesores.clear();
+            listaNodos.clear();
         }
         //System.out.println(nodosVisitados);
         if (solucion) {
@@ -165,12 +163,14 @@ public class Principal {
 
         for (int i = 0; i < listaSucesores.size(); i++) {   
             if (estrategia.equals("A*")) {
-                Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
-                    listaSucesores.get(i).getAccion(), padre.getProfundidad(), padre, estrategia);                
+                Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(),
+                    padre.getCosto() + listaSucesores.get(i).getCoste(),
+                    listaSucesores.get(i).getAccion(), padre.getProfundidad()+1, padre, estrategia);                
                 if(!podar(nuevoNodo, tablaHash)) listaNodos.add(nuevoNodo);
             } else {
-                Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(), listaSucesores.get(i).getCoste(),
-                    listaSucesores.get(i).getAccion(), padre.getProfundidad(), padre, estrategia,0);
+                Nodo nuevoNodo = new Nodo(listaSucesores.get(i).getEstado(),
+                    padre.getCosto() + listaSucesores.get(i).getCoste(),
+                    listaSucesores.get(i).getAccion(), padre.getProfundidad()+1, padre, estrategia,0);
                 if(!podar(nuevoNodo, tablaHash)) listaNodos.add(nuevoNodo);
             }
         }

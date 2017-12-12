@@ -1,6 +1,6 @@
 /** Clase para poder leer del teclado cualquier dato del tipo que sea de los siguientes:
   * Entero, Double, Float, Cadena, Car�cter, Boolean
-  */
+ **/
 
 package utilidades;
 

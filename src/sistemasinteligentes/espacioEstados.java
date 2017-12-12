@@ -14,10 +14,9 @@ public class espacioEstados {
     public ArrayList sucesores(Estado e){
         Distribucion dist = new Distribucion(); //Creamos un objeto distribucion para sacar todas las acciones
         ArrayList<ArrayList> accion = dist.inicioDistribucion(e); //Guardamos las acciones en el ArrayList
-        for (int i = 0; i < accion.size(); i++) 
-            System.out.println(accion.get(i)); /*Imprime todas las acciones*/       
+        //for (int i = 0; i < accion.size(); i++) 
+            //System.out.println(accion.get(i)); /*Imprime todas las acciones*/       
      
-        System.out.println("s");
         ArrayList<Sucesor> listaSucesores  = new ArrayList();
         for(int i = 0 ; i<accion.size() ; i++){
             Estado es = fSucesores(e,accion.get(i)); //Guardamos el estado que sacamos a partir de la accion

@@ -17,7 +17,7 @@ public class Nodo implements Comparable<Nodo> {
         this.estado = ep;
         this.costo = 0;
         this.accion = null;
-        this.profundidad = 0;
+        this.profundidad = 1;
         this.padre = null;
         this.heuristica = 0;
     }
@@ -26,22 +26,22 @@ public class Nodo implements Comparable<Nodo> {
         this.estado = estado;
         this.costo = costo;
         this.accion = accion;        
-        this.profundidad = profundidad + 1;
+        this.profundidad = profundidad;
         this.padre = padre;
         this.heuristica = heuristica;
 
         switch (estrategia) { //Calculo valor segun estrategia
             case "Anchura":
-                this.valor = profundidad;
+                this.valor = this.profundidad;
                 break;
             case "CualquierProfundidad":
-                this.valor = -profundidad;
+                this.valor = -this.profundidad;
                 break;
             case "Costo":
-                this.valor = costo;
+                this.valor = this.costo;
                 break;
             case "A*":
-                this.valor = costo + heuristica;
+                this.valor = this.costo + this.heuristica;
                 break;
         }
     }
@@ -51,22 +51,22 @@ public class Nodo implements Comparable<Nodo> {
         this.estado = estado;
         this.costo = costo;
         this.accion = accion;        
-        this.profundidad = profundidad + 1;
+        this.profundidad = profundidad;
         this.padre = padre;
         this.heuristica = calculoHeuristica();
 
         switch (estrategia) { //Calculo valor segun estrategia
             case "Anchura":
-                this.valor = profundidad;
+                this.valor = this.profundidad;
                 break;
             case "CualquierProfundidad":
-                this.valor = -profundidad;
+                this.valor = -this.profundidad;
                 break;
             case "Costo":
-                this.valor = costo;
+                this.valor = this.costo;
                 break;
             case "A*":
-                this.valor = costo + heuristica;
+                this.valor = this.costo + this.heuristica;
                 break;
         }
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ficheros;
 
 import java.io.File;
@@ -10,15 +5,17 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 import sistemasinteligentes.Estado;
+import sistemasinteligentes.Nodo;
 import utilidades.leer;
 
 /**
- *
- * @author absit
- */
+ * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
+ **/
 public class Ficheros {
 
     public Estado cargarDatosFichero() throws Exception {
@@ -54,7 +51,7 @@ public class Ficheros {
     }
 
     public void escrituraFichero(Estado ei) {
-        File archivo = new File("DistribucionesTerreno.txt");
+        File archivo = new File("ProblemaTeclado.txt");
         try {
             int[][] m = ei.getTerreno();
             FileWriter fl = new FileWriter(archivo);
@@ -69,6 +66,18 @@ public class Ficheros {
             }
             pw.close();
         } catch (IOException ex) {
+            System.out.println("ERROR");
+        }
+    }
+    
+    public void escrituraSolucion(){
+        File archivo = new File("Solucion.txt");
+        try{
+            FileWriter fl = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fl);
+            //Escritura de la solucion
+            pw.close();
+        }catch(IOException ex){
             System.out.println("ERROR");
         }
     }

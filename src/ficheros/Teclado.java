@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ficheros;
 
 
@@ -10,9 +5,8 @@ import sistemasinteligentes.Estado;
 import utilidades.leer;
 
 /**
- *
- * @author absit
- */
+ * @author Ángel Sánchez González, Adrián Muñoz Llano, Javier Monescillo Buitrón
+ **/
 public class Teclado {
     
     public Estado cargarDatosTeclado() throws Exception{
