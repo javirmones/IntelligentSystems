@@ -69,16 +69,4 @@ public class Ficheros {
             System.out.println("ERROR");
         }
     }
-    
-    public void escrituraSolucion(){
-        File archivo = new File("Solucion.txt");
-        try{
-            FileWriter fl = new FileWriter(archivo);
-            PrintWriter pw = new PrintWriter(fl);
-            //Escritura de la solucion
-            pw.close();
-        }catch(IOException ex){
-            System.out.println("ERROR");
-        }
-    }
 }
